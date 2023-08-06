@@ -1,0 +1,1 @@
+/Users/shigeharu/qmk_firmware/keyboards/omonomo/snuc/keymaps/default/func_key_output.h
