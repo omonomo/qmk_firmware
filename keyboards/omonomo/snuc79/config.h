@@ -1,1 +1,1 @@
-/Users/shigeharu/qmk_firmware/keyboards/omonomo/snuc/config.h
+/Users/shigeharu/Developments/qmk_firmware/keyboards/omonomo/snuc/config.h

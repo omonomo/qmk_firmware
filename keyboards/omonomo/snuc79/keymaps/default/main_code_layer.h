@@ -1,1 +1,1 @@
-/Users/shigeharu/qmk_firmware/keyboards/omonomo/snuc/keymaps/default/main_code_layer.h
+/Users/shigeharu/Developments/qmk_firmware/keyboards/omonomo/snuc/keymaps/default/main_code_layer.h

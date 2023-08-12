@@ -1,1 +1,1 @@
-/Users/shigeharu/qmk_firmware/keyboards/omonomo/snuc/keymaps/default/sub_mouse.h
+/Users/shigeharu/Developments/qmk_firmware/keyboards/omonomo/snuc/keymaps/default/sub_mouse.h

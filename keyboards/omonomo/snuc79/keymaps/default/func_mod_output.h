@@ -1,1 +1,1 @@
-/Users/shigeharu/qmk_firmware/keyboards/omonomo/snuc/keymaps/default/func_mod_output.h
+/Users/shigeharu/Developments/qmk_firmware/keyboards/omonomo/snuc/keymaps/default/func_mod_output.h
