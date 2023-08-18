@@ -81,12 +81,19 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 		if (IS_ROMAZI_OFF) return; // ROMAZI_OFFでキャンセル
 // 日本語入力モード時のみ ---------------------------------------------
-		if (IS_WIN ? IS_OTHER_MOD_PRESS_EX(_S _E _B) : IS_OTHER_MOD_PRESS_EX(_S _E _A _B)) return; // 特定のMODを押していたらそのまま
+		if (IS_MOD_PRESS(_M)) {
+			if (keycode == KC_U || keycode == KC_I || keycode == KC_M || keycode == KC_V) { // ESC, TAB, ENT
+				ROMAZI_ON; // ROMAZI_TEMPから復帰
+				letter_width -= letter_width % 2; // ROMAN→HALF、SYMBOL→FULL
+				return;
+			} // keycode
+		} // IS_MOD_PRESS
+
+		if (IS_WIN ? IS_OTHER_MOD_PRESS_EX(_S _E _B) : IS_OTHER_MOD_PRESS_EX(_S _E _A _B)) return; // 特定のMOD以外を押していたらそのまま
 		const bool IS_SAB_PRESS = IS_WIN ? IS_OTHER_MOD_PRESS(_S _B) : IS_OTHER_MOD_PRESS(_S _A _B); // 全角出力するMODキー
 
 		switch (keycode) {
 			case RM_A ... RM_TEN: // 常に全角
-			case KC_SPC:
 				R_CHANGE_WIDTH(FULL);
 			break;
 
@@ -98,14 +105,15 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				R_CHANGE_WIDTH(FULL);
 			break;
 
-			case KC_LBRC: case KC_RBRC: // MODなしで全角
+//			case KC_LBRC: case KC_RBRC: // MODなしで全角(単打で鍵括弧を入力する場合復活)
 			case KC_COMM: case KC_DOT: // MODなし、数字の後以外で全角
 				if (IS_SAB_PRESS) {
 					R_CHANGE_WIDTH(FULL);
 				}
 				if (letter_width == ROMAN) return;
-				if ((keycode == KC_COMM || keycode == KC_DOT)
-				&&  (KC_1 <= LAST_KEYCODE && LAST_KEYCODE <= KC_0)) return;
+//				if ((keycode == KC_COMM || keycode == KC_DOT)
+//				&&  (KC_1 <= LAST_KEYCODE && LAST_KEYCODE <= KC_0)) return;
+				if (KC_1 <= LAST_KEYCODE && LAST_KEYCODE <= KC_0) return;
 				if (!IS_ANY_MOD_PRESS) {
 					R_CHANGE_WIDTH(FULL);
 				} // IS_ANY_MOD_PRESS
@@ -122,11 +130,12 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				} // IS_ANY_MOD_PRESS
 			break;
 
-			case KC_1 ... KC_0: // ;`の後MODなしで全角
+			case KC_1 ... KC_0: // ;`の後、またはMODなしで全角
 			case KC_EQL:
 			case KC_BSLS:
 			case KC_SLSH:
 			case KC_MINS: // ;`の後、またはROMAZI_INの時MODなしで全角
+			case KC_LBRC: case KC_RBRC: // 同上(単打で鍵括弧を入力する場合削除)
 			case KC_QUOT: // ;`の後、またはROMAZI_NOの時MODなしで全角
 				if (IS_SAB_PRESS) {
 					R_CHANGE_WIDTH(FULL);
@@ -134,21 +143,23 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				if (letter_width == ROMAN) return;
 				if (!IS_ANY_MOD_PRESS) {
 					if (letter_width == SYMBOL
-					|| (keycode == KC_MINS && IS_ROMAZI_IN_ON)
+					|| ((keycode == KC_MINS || keycode == KC_LBRC || keycode == KC_RBRC) && IS_ROMAZI_IN_ON)
+//					|| (keycode == KC_MINS && IS_ROMAZI_IN_ON)
 					|| (keycode == KC_QUOT && IS_ROMAZI_NO_ON)) {
 						R_CHANGE_WIDTH(FULL);
 					} // keycode
 				} // IS_ANY_MOD_PRESS
 			break;
 
-			case MT_LSFT_SPC: // 記号入力後の半角解除防止
-			case MT_RSFT_SPC:
+			case KC_ESC: // ROMAN→HALF、SYMBOL→FULL
+			case KC_TAB:
+			case KC_ENT:
+				ROMAZI_ON; // ROMAZI_TEMPから復帰
+				letter_width -= letter_width % 2;
 				return;
 			break;
 
-			default: // 上記以外のキーを押した時 ROMAN→HALF、SYMBOL→FULL
-				ROMAZI_ON; // ROMAZI_TEMPから復帰
-				letter_width -= letter_width % 2;
+			default: // 上記以外のキーを押した時
 				return;
 			break;
 		}
@@ -172,12 +183,14 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				return;
 			break;
 
-			case MT_LSFT_SPC: // TAPした時常に全角
-			case MT_RSFT_SPC:
-				if (IS_ROMAZI_OFF) return; // ROMAZI_OFFでキャンセル
-				if (IS_TAP) {
-					R_CHANGE_WIDTH(FULL);
-				}
+			case LT_LFNC_ESC: // ROMAN→HALF、SYMBOL→FULL
+			case LT_RFNC_ESC:
+			case LT_CRSR_TAB:
+			case LT_MODE_PENT:
+			case MT_RCTL_ENT:
+				ROMAZI_ON; // ROMAZI_TEMPから復帰
+				letter_width -= letter_width % 2;
+				return;
 			break;
 
 			default:

@@ -162,7 +162,9 @@ typedef enum {
 
 typedef struct {
 	system_e operating_system; // 使用OS Windows/macOS/iOS
-	romazi_e romazi_mode; // ローマ字モード(不使用-OFF/不使用-ON/出力-OFF/出力-ON/入力-OFF/入力-ON)
+	romazi_e romazi_mode; // ローマ字モード(不使用-OFF/不使用-一時OFF/不使用-ON/
+	                      // 出力-OFF/出力-一時OFF/出力-ON/
+	                      // 入力-OFF/入力-一時OFF/入力-ON)
 
 	uint16_t last2_keycode; // 前々回に押したキーコード
 	uint16_t last_keycode; // 前回押したキーコード

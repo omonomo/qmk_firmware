@@ -141,25 +141,25 @@ bool pr_romazi_input(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		{"b",    "ei",   "x",    "sr",   "z"   }, // LY ャ行
 		{"sa",   "",     "",     "",     ""    }, // LW ヮ
 		{"en",   "ei",   "st",   "sr",   "eo"  }, // LX ァ行
-		{"g",    "u",    "h",    "sk",   "ea"  }, // X  ア行
+		{"et",   "u",    "h",    "sk",   "ea"  }, // X  ア行
 		{"a",    "y",    "k",    "ev",   "si"  }, // K  カ行
 		{"ew",   "o",    "es",   "ep",   "se"  }, // S  サ行
 		{"f",    "",     "j",    "d",    "t"   }, // T  タ行
 		{"v",    "c",    "sj",   "ez",   "w"   }, // N  ナ行
-		{"er",   "su",   "eb",   "sl",   "ec"  }, // H  ハ行
-		{"p",    "sy",   "s.",   "ed",   "ef"  }, // M  マ行
+		{"er",   "su",   "g",    "sl",   "ec"  }, // H  ハ行
+		{"p",    "sy",   "s.",   "eb",   "ef"  }, // M  マ行
 		{"sh",   "",     "s,",   "",     "eg"  }, // Y  ヤ行
-		{"et",   "so",   "m",    "sn",   "s"   }, // R  ラ行
+		{"ed",   "so",   "m",    "sn",   "s"   }, // R  ラ行
 		{"sm",   "iq",   "",     "r.",   "rn"  }, // W  ワ行
 		{"rhen", "rhei", "rh",   "rhsr", "rheo"}, // V  ヴ行
 		{"ia",   "ry",   "rk",   "iv",   "ri"  }, // G  ガ行
 		{"iw",   "ro",   "is",   "ip",   "re"  }, // Z  ザ行
 		{"if",   "r",    "rj",   "id",   "it"  }, // D  ダ行
-		{"ir",   "ru",   "ib",   "rl",   "ic"  }, // B  バ行
-		{"ix",   "r,",   "ig",   "rm",   "iz"  }, // P  パ行
+		{"ir",   "ru",   "ig",   "rl",   "ic"  }, // B  バ行
+		{"ix",   "r,",   "ib",   "rm",   "iz"  }, // P  パ行
 		{"rob",  "ro",   "rox",  "rosr", "roz" }, // J  ジャ行
 		{"ken",  "kei",  "k",    "ksr",  "keo" }, // Q  クァ行
-		{"eben", "ebei", "eb",   "ebsr", "ebeo" }, // F  ファ行
+		{"gen",  "gei",  "g",    "gsr",  "geo" }, // F  ファ行
 		{"",     "",     "",     "",     ""    }  // C
 	};
 
@@ -353,6 +353,14 @@ bool pr_romazi_input(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		return false;
 	} // j
 // 単打 ---------------------------------------------
+	if (keycode == KC_LBRC) { // 「
+		tap_code(KC_S);
+		RF_TAP_CODE_UJ(KC_LBRC, KC_RBRC);
+	}
+	if (keycode == KC_RBRC) { // 」
+		tap_code(KC_S);
+		RF_TAP_CODE_UJ(KC_RBRC, KC_NUHS);
+	}
 	if (KC_A <= keycode && keycode <= KC_Z) return false; // 単打でのカナ出力防止
 	if (keycode == KC_QUOT && !IS_HALF_SYMBOL) return false;
 
