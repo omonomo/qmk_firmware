@@ -115,9 +115,8 @@ enum various {
 #define ROMAZI_IN_OFF  global->romazi_mode = IN_OFF;  tap_code(KK_EISU)
 #define ROMAZI_IN_ON   global->romazi_mode = IN_ON;   tap_code(KK_KANA)
 
-#define ROMAZI_OFF  global->romazi_mode -= global->romazi_mode % 3
-#define ROMAZI_TEMP global->romazi_mode += 1 - (global->romazi_mode % 3)
-#define ROMAZI_ON   global->romazi_mode += 2 - (global->romazi_mode % 3)
+#define ROMAZI_OFF  global->romazi_mode -= global->romazi_mode % 2
+#define ROMAZI_ON   global->romazi_mode += 1 - (global->romazi_mode % 2)
 
 #define KEYBOARD_US  global->various_flag &= ~(1 << JIS_KEYBOARD)
 #define KEYBOARD_JIS global->various_flag |=  (1 << JIS_KEYBOARD)
@@ -155,9 +154,9 @@ typedef enum {
 } system_e; // OSモード
 
 typedef enum {
-	NO_OFF,  NO_TEMP,  NO_ON,
-	OUT_OFF, OUT_TEMP, OUT_ON,
-	IN_OFF,  IN_TEMP,  IN_ON
+	NO_OFF,  NO_ON,
+	OUT_OFF, OUT_ON,
+	IN_OFF,  IN_ON
 } romazi_e; // ローマ字モード
 
 typedef struct {
