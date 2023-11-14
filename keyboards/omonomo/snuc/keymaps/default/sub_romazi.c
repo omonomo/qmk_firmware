@@ -122,7 +122,7 @@ bool pr_romazi_input(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 	switch (keycode) {
 		case KC_ENT ... KC_SPC: // 以下の処理をキャンセルするキー
-		case KC_DEL: case CK_DEL:
+		case KC_DEL:
 		case LT_MODE_PENT:
 			return true;
 		break;

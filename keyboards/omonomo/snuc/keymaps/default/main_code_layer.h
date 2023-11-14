@@ -47,10 +47,6 @@ enum keycodes {
 	CK_WKUP,
 // 入力モード切り替え用 =============================================
 	CK_EISU, CK_KANA,
-// テンキー拡張用 =============================================
-	CK_P000, // 始めP000、絶対半角終わりCK_PEQL、テンキー終わりCK_DELを崩さない
-	CK_PCMM, CK_PCLN, CK_PEQL,
-	CK_UNDO, CK_CUT,  CK_COPY, CK_PAST, CK_DEL,
 // カスタムMOD =============================================
 	CK_MET, // モッドタップの前に置く
 // モッドタップキー =============================================
@@ -87,7 +83,7 @@ enum keycodes {
 enum layers {
 	_COLEMAK,  _QWERTY,
 	_MIZU, _MIZU_LD, _MIZU_LS, _MIZU_RS, _MIZU_RD,
-	_GAME, _CURSOR,  _NUMERIC,
+	_GAME, _CURSOR,
 	_LFNC, _RFNC,    _MODE,    _MOUSE
 };
 

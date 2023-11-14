@@ -114,12 +114,6 @@ void pr_layer_change(global_s *global) {
 		layer_off(_CURSOR);
 	} // IS_MOD_PRESS_EX
 
-	if (IS_MOD_PRESS(_P)) { // APPを押していたら_NUMERICレイヤーON
-		layer_on(_NUMERIC);
-	} else { // IS_MOD_PRESS
-		layer_off(_NUMERIC);
-	} // IS_MOD_PRESS
-
 	if (IS_WIN ? IS_MOD_PRESS_EX(_S _E _B) : IS_MOD_PRESS_EX(_S _E _A _B)) { // 機能キーを出力するときはQWERTY配列
 		layer_on(_QWERTY);
 	} else if (!IS_QWERTY) { // IS_MOD_PRESS_EX
