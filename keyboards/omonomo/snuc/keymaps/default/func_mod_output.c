@@ -2,6 +2,7 @@
 
 #include "main_code_layer.h"
 #include "main_keymap.h"
+#include "ini_config.h"
 
 // 補助関数 |||||||||||||||||||||||||||||||||||||||||||||
 
@@ -50,6 +51,7 @@ void unregister_p_mods(uint16_t reg_flag, global_s *global) {
 			unregister_code(GUI_IS_CTL ? MOD_KC[i] : MOD_KG[i]);
 		} // reg_flag
 	} // i
+	wait_ms(TAP_AFTER_DELAY_S);
 	return;
 }
 
@@ -73,6 +75,7 @@ void unregister_p_mod_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *
 	if (!FIND_P_MOD(reg_mod, target_flag)) {
 		INVALID_ONE_SHOT(reg_mod);
 		unregister_code(reg_mod);
+		wait_ms(TAP_AFTER_DELAY_S);
 	} // FIND_P_MOD
 	return;
 }

@@ -94,6 +94,7 @@ bool replace_mod_tap_key16(uint16_t tap_key, uint8_t rep_mod, uint16_t rp_mod_ma
 
 	if (tap_key == 0) { // タップされるキーコードが0でMODを元に戻す
 		unregister_code(replaced_keycode);
+		wait_ms(TAP_AFTER_DELAY_S);
 		REGISTER_P_MODS(replaced_keycode == 0 ? 0 : IS_ANY_OTHER_MOD_PRESS);
 		replaced_keycode = 0;
 		return true;
