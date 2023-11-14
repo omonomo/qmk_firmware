@@ -61,15 +61,20 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 	if (IS_KEY_PRESS) {
 		switch (keycode) {
-			case KC_PSLS ... KC_PDOT: // 全・半角切り替えモードに関係なく常に半角(:,出力のため)
-			case CK_P000 ... CK_PEQL:
+			case KC_PSLS ... KC_PDOT: // 全・半角切り替えモードに関係なく常に半角
 				if (IS_MOD_PRESS_EX(_P _F _M)) return;
-				if (LAST_KEYCODE < KC_PSLS
-				|| (KC_PDOT < LAST_KEYCODE && LAST_KEYCODE < CK_P000)
-				|| CK_PEQL < LAST_KEYCODE) { // 確実に半角にするため、異なる条件で判定
+				if (LAST_KEYCODE < KC_PSLS || KC_PDOT < LAST_KEYCODE) { // 確実に半角にするため、異なる条件で判定
 					tap_code(KK_EISU);
-				} // letter_width
+				} // LAST_KEYCODE
 				letter_width = HALF;
+				return;
+			break;
+
+			case KC_APP: // 000を出力する場合常に半角
+				if (IS_OTHER_MOD_PRESS_ONLY(_F)) {
+					tap_code(KK_EISU);
+					letter_width = HALF;
+				} // IS_OTHER_MOD_PRESS_ONLY
 				return;
 			break;
 
@@ -79,13 +84,6 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 		if (IS_ROMAZI_OFF) return; // ROMAZI_OFFでキャンセル
 // 日本語入力モード時のみ ---------------------------------------------
-		if (IS_MOD_PRESS(_M)) {
-			if (keycode == KC_U || keycode == KC_I || keycode == KC_M || keycode == KC_V) { // ESC, TAB, ENT
-				letter_width -= letter_width % 2; // ROMAN→HALF、SYMBOL→FULL
-				return;
-			} // keycode
-		} // IS_MOD_PRESS
-
 		if (IS_WIN ? IS_OTHER_MOD_PRESS_EX(_S _E _B) : IS_OTHER_MOD_PRESS_EX(_S _E _A _B)) return; // 特定のMOD以外を押していたらそのまま
 		const bool IS_SAB_PRESS = IS_WIN ? IS_OTHER_MOD_PRESS(_S _B) : IS_OTHER_MOD_PRESS(_S _A _B); // 全角出力するMODキー
 
@@ -98,7 +96,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				if (letter_width == ROMAN) return;
 				if (IS_MOD_PRESS(_E)) {
 					R_CHANGE_WIDTH(ROMAN);
-				}
+				} // IS_MOD_PRESS
 				R_CHANGE_WIDTH(FULL);
 			break;
 
@@ -106,7 +104,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			case KC_COMM: case KC_DOT: // MODなし、数字の後以外で全角
 				if (IS_SAB_PRESS) {
 					R_CHANGE_WIDTH(FULL);
-				}
+				} // IS_SAB_PRESS
 				if (letter_width == ROMAN) return;
 				if ((keycode == KC_COMM || keycode == KC_DOT)
 				&&  (KC_1 <= LAST_KEYCODE && LAST_KEYCODE <= KC_0)) return;
@@ -119,7 +117,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			case KC_GRV:
 				if (IS_SAB_PRESS) {
 					R_CHANGE_WIDTH(FULL);
-				}
+				} // IS_SAB_PRESS
 				if (letter_width == ROMAN) return;
 				if (!IS_ANY_MOD_PRESS) {
 					R_CHANGE_WIDTH(SYMBOL);
@@ -134,7 +132,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			case KC_QUOT: // ;`の後、またはROMAZI_NOの時MODなしで全角
 				if (IS_SAB_PRESS) {
 					R_CHANGE_WIDTH(FULL);
-				}
+				} // IS_SAB_PRESS
 				if (letter_width == ROMAN) return;
 				if (!IS_ANY_MOD_PRESS) {
 					if (letter_width == SYMBOL
@@ -145,19 +143,16 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				} // IS_ANY_MOD_PRESS
 			break;
 
-			case KC_ESC: // ROMAN→HALF、SYMBOL→FULL
-			case KC_TAB:
-			case KC_ENT:
-				letter_width -= letter_width % 2;
+			case MT_LSFT_SPC:
+			case MT_RSFT_SPC:
 				return;
 			break;
 
-			default: // 上記以外のキーを押した時
-				return;
+			default:
 			break;
 		}
 
-		R_CHANGE_WIDTH(HALF); // いずれの条件にも当てはまらない場合半角に切り替え
+		letter_width -= letter_width % 2; // いずれの条件にも当てはまらない場合 ROMAN→HALF、SYMBOL→FULL
 	} else { // IS_KEY_PRESS
 		switch (keycode) {
 			case MT_LGUI_EISU: // TAPした時に半角設定
@@ -176,15 +171,6 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				return;
 			break;
 
-			case LT_LFNC_ESC: // ROMAN→HALF、SYMBOL→FULL
-			case LT_RFNC_ESC:
-			case LT_CRSR_TAB:
-			case LT_MODE_PENT:
-			case MT_RCTL_ENT:
-				letter_width -= letter_width % 2;
-				return;
-			break;
-
 			default:
 			break;
 		}
@@ -197,99 +183,59 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 // キー置き換え ---------------------------------------------
 	switch (keycode) {
-		case KC_APP: // 単独でタップした時のみメニューを出す
-			if (!IS_GAME_MODE) {
-				if (IS_KEY_PRESS) {
-					MOD_DIFFERENT_ON;
-					return false;
-				} else { // IS_KEY_PRESS
-					if (!IS_KEY_PRESS_AFTER_MOD) {
-						register_code(KC_APP);
-					} // IS_KEY_PRESS_AFTER_MOD
-				} // IS_KEY_PRESS
-			} // IS_GAME_MODE
-		break;
-
-		case CK_DEL:
+		case KC_BSPC:
 			if (IS_MOD_PRESS_COMP(_P)) {
-				if (IS_KEY_PRESS) { // APP押しながらで行末まで削除
-					RF_KEY_SEQUENCE(SLCT_PARA_BTM DEL_TEXT);
+				if (IS_KEY_PRESS) { // APP押しながらで行頭まで削除
+					RF_KEY_SEQUENCE(SLCT_PARA_TOP DEL_TEXT);
 				} // IS_KEY_PRESS
-			} // IS_MOD_PRESS_COMP
-			if (IS_MOD_PRESS(_F _M)) { // FNかMETを押しながらで INS or CLEAR
-				RF_REPLACE_KEY16(IS_WIN ? KC_INS : KC_NUM);
-			} else { // IS_MOD_PRESS 通常 DEL
+			} else if (IS_MOD_PRESS(_F)) { // FNを押しながらで DEL
 				RF_REPLACE_KEY16(KC_DEL);
 			} // IS_MOD_PRESS
-		break;
-
-		case CK_PEQL:
-			if (IS_WIN) {
-				RF_REPLACE_KEY16_UJ(KC_EQL, S(KC_MINS));
-			} else { // IS_WIN
-				RF_REPLACE_KEY16(KC_PEQL);
-			} // IS_WIN
-		break;
-
-		default:
-		break;
-	}
-
-	if (!IS_KEY_PRESS) return true;
-// 置き換えタップ ---------------------------------------------
-	switch (keycode) {
-		case CK_P000: // 000
-			RF_REPEAT_KEY(KC_P0, 3);
-		break;
-
-		case CK_PCLN: // :
-			RF_TAP_CODE16_UJ(S(KC_SCLN), KC_QUOT);
-		break;
-
-		case CK_PCMM: // ,
-			RF_TAP_CODE(KC_COMM);
-		break;
-
-		case CK_UNDO:
-			RF_TAP_CODE16(IS_WIN ? C(KC_Z) : G(KC_Z));
-		break;
-
-		case CK_CUT:
-			RF_TAP_CODE16(IS_WIN ? C(KC_X) : G(KC_X));
-		break;
-
-		case CK_COPY:
-			RF_TAP_CODE16(IS_WIN ? C(KC_C) : G(KC_C));
-		break;
-
-		case CK_PAST:
-			RF_TAP_CODE16(IS_WIN ? C(KC_V) : G(KC_V));
-		break;
-
-		case KC_BSPC: // APP押しながらで行頭まで削除
-			if (IS_MOD_PRESS_COMP(_P)) {
-				RF_KEY_SEQUENCE(SLCT_PARA_TOP DEL_TEXT);
-			} // IS_MOD_PRESS_COMP
 		break;
 
 		case KC_CAPS: // LFN押しながらで 英数→CAPS
 			if (IS_WIN) {
 				if (IS_MOD_PRESS(_LF)) {
-					RF_TAP_CODE16(S(KC_CAPS));
+					if (IS_KEY_PRESS) {
+						RF_TAP_CODE16(S(KC_CAPS));
+					} // IS_KEY_PRESS
 				} // IS_MOD_PRESS
 			} // IS_WIN
 		break;
 
-		default:
+		case KC_DEL:
+			if (IS_MOD_PRESS_COMP(_P)) {
+				if (IS_KEY_PRESS) { // APP押しながらで行末まで削除
+					RF_KEY_SEQUENCE(SLCT_PARA_BTM DEL_TEXT);
+				} // IS_KEY_PRESS
+			} else if (IS_MOD_PRESS(_F _M)) { // FNかMETを押しながらで INS or CLEAR
+				RF_REPLACE_KEY16(IS_WIN ? KC_INS : KC_NUM);
+			} // IS_MOD_PRESS
 		break;
-	}
 
-	if (!IS_MOD_PRESS_ONLY(_F)) return true; // FN単独でなければreturn
-// Hyper ---------------------------------------------
-	switch (keycode) {
-		case KC_A ... KC_Z:
+		case KC_APP: // 単独でタップした時のみメニューを出す
+			if (IS_GAME_MODE) return true;
+			if (IS_KEY_PRESS) {
+				MOD_DIFFERENT_ON;
+				if (IS_OTHER_MOD_PRESS_ONLY(_F)) { // FNを押しながらで 000
+					KEY_PRESS_AFTER_MOD_ON;
+					RF_REPEAT_KEY(KC_P0, 3);
+				} // IS_OTHER_MOD_PRESS_ONLY
+				return false;
+			} else { // IS_KEY_PRESS
+				if (!IS_KEY_PRESS_AFTER_MOD) {
+					register_code(KC_APP);
+				} // IS_KEY_PRESS_AFTER_MOD
+			} // IS_KEY_PRESS
+		break;
+
+		case KC_A ... KC_Z: // FN単独で文字キーを押した場合Hyperタップ
 		case KC_LBRC ... KC_SLASH:
-			RF_TAP_CODE16(X_HYPR(keycode));
+			if (IS_MOD_PRESS_ONLY(_F)) {
+				if (IS_KEY_PRESS) {
+					RF_TAP_CODE16(X_HYPR(keycode));
+				} // IS_KEY_PRESS
+			} // IS_MOD_PRESS_ONLY
 		break;
 
 		default:
