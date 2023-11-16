@@ -35,7 +35,7 @@ static void rst_sft(global_s *global) {
 
 // オーバーライドリセット関数 #############################################
 static void rst_override(uint16_t *override_keycode, global_s *global) {
-	unregister_code(*override_keycode);
+	UNREGISTER_CODE(*override_keycode);
 	*override_keycode = 0;
 	RST_SFT;
 }
@@ -57,7 +57,7 @@ void ms_key_override(void) {
 	if (sft_up_keycode == 0) return;
 
 	if (REPEAT_COUNT == 1) { // SFTを離した後REPEAT_COUNTが0になるまでキーを押していればsft_up_keycodeをレジスト
-		register_code(sft_up_keycode);
+		REGISTER_CODE(sft_up_keycode);
 		sft_up_keycode = 0;
 	}
 	return;
@@ -87,7 +87,7 @@ bool pr_key_override(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		if (keycode != ORI_KEY_NS[i]) continue;
 		if (IS_KEY_PRESS) {
 			if (IS_MOD_PRESS_EX(_B)) break; // TAB以外のMODを押していたらループを抜ける
-			unregister_code(override_keycode);
+			UNREGISTER_CODE(override_keycode);
 			REGISTER_CODE16(override_keycode = S(REP_KEY_NS[i])); // LSFT付きでレジスト
 			return false;
 		} else { // IS_KEY_PRESS
@@ -103,9 +103,9 @@ bool pr_key_override(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		if (IS_KEY_PRESS) {
 			if (!IS_MOD_PRESS(_S _E)) break;// SFTを押していなければループを抜ける
 			if (IS_MOD_PRESS_EX(_S _E _B)) break; // SFT・TAB以外のMODを押していたらループを抜ける
-			unregister_code(override_keycode);
+			UNREGISTER_CODE(override_keycode);
 			UNREGISTER_MODS(_S);
-			register_code(override_keycode = REP_KEY_SN[i]);
+			REGISTER_CODE(override_keycode = REP_KEY_SN[i]);
 			return false;
 		} else { // IS_KEY_PRESS
 			if (override_keycode == 0) return true;
@@ -119,9 +119,9 @@ bool pr_key_override(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		if (IS_KEY_PRESS) {
 			if (!IS_MOD_PRESS(_S _E)) break; // SFTを押していなければループを抜ける
 			if (IS_MOD_PRESS_EX(_S _E _B)) break; // SFT、TAB以外のMODを押していたらループを抜ける
-			unregister_code(override_keycode);
+			UNREGISTER_CODE(override_keycode);
 			REGISTER_MODS_IF_PRESS(_S _E); //有・無からの移行対応
-			register_code(override_keycode = S(REP_KEY_SS[i])); // SFTが既に押されているため、LSFT抜きでレジスト(有・無と区別のためLSFT付きで保存)
+			REGISTER_CODE(override_keycode = S(REP_KEY_SS[i])); // SFTが既に押されているため、LSFT抜きでレジスト(有・無と区別のためLSFT付きで保存)
 			return false;
 		} else { // IS_KEY_PRESS
 			if (override_keycode == 0) return true;
@@ -134,9 +134,9 @@ bool pr_key_override(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		if (keycode != ORI_KEY_TT[i]) continue;
 		if (IS_KEY_PRESS) {
 			if (IS_WIN ? IS_MOD_PRESS_EX(_S _E _B) : IS_MOD_PRESS_EX(_S _E _A _B)) break; // SFT(、ALT)、TAB以外のMODを押していたらループを抜ける
-			unregister_code(override_keycode);
+			UNREGISTER_CODE(override_keycode);
 			RST_SFT;
-			register_code(override_keycode = REP_KEY_TT[i]);
+			REGISTER_CODE(override_keycode = REP_KEY_TT[i]);
 			return false;
 		} else { // IS_KEY_PRESS
 			if (override_keycode == 0) return true;
@@ -155,13 +155,13 @@ bool pr_key_override(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				if (IS_OTHER_MOD_PRESS(_S _E)) return true; // 他のSFTが押されていればreturn
 				for (int8_t i = 0; i < ARRAY_NUM(REP_KEY_SN); ++i) { // SFT有・無
 					if (override_keycode != REP_KEY_SN[i]) continue;
-					unregister_code(override_keycode);
+					UNREGISTER_CODE(override_keycode);
 					SET_SFT_UP_OVERRIDE(override_keycode = ORI_KEY_SN[i]); // SFTアンレジスト済みなのでそのままで元のキーに戻す
 					return false;
 				} // i
 				for (int8_t i = 0; i < ARRAY_NUM(REP_KEY_SS); ++i) { // SFT有・有
 					if (override_keycode != S(REP_KEY_SS[i])) continue;
-					unregister_code(override_keycode);
+					UNREGISTER_CODE(override_keycode);
 					if (i < ARRAY_NUM(REP_KEY_NS)) { // 一部のキーはSFTを離した場合、無・有に移行
 						SET_SFT_UP_OVERRIDE(override_keycode = S(REP_KEY_NS[i])); //SFTそのまま、LSFT付きで保存し、後でLSFT抜きでレジスト
 					} else { // REP_KEY_NS

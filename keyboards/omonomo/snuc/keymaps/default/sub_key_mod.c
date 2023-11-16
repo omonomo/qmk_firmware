@@ -403,23 +403,29 @@ bool pr_metkey(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		RST_UP_MOD_REPLACE_KEY16; // 上記以外のキーを押した場合、置き替えたキーをアンレジスト
 		if (IS_TEXT_EDIT) {
 			if (!IS_MOD_PRESS_EX(_S _E _M)) { // MET必須、SFTオプション、その他禁止
+				switch (keycode) {  // 先に実行する共通命令
+					case KC_O: case KC_R: case KC_C: case KC_P:
+						UNREGISTER_MET;
+					break;
+
+					default:
+					break;
+				}
+
 				switch (keycode) {
 					case KC_O: // 2次プレフィクス有効
-						UNREGISTER_MET;
 						SECOND_PREFIX_ON;
 						return false;
 
 					case KC_R:
 					case KC_C:
 						if (IS_IOS) { // iOSはPageUp・Downが無いため、繰り返しマクロで代用
-							UNREGISTER_MET;
 							SET_MACRO;
 							return false;
 						} // IS_IOS
 					break;
 
 					case KC_P: // 文字入れ替え(SFTを押しながらだとキャレットが先頭側)
-						UNREGISTER_MET;
 						if (IS_MOD_PRESS(_S _E)) {
 							UNREGISTER_MODS(_S);
 							MOD_DIFFERENT_ON;
@@ -434,49 +440,51 @@ bool pr_metkey(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				}
 			} // IS_MOD_PRESS_EX
 			if (!IS_MOD_PRESS_EX(_M)) { //MET必須、その他禁止
+				switch (keycode) { // 先に実行する共通命令
+					case KC_B: case KC_T: case KC_Y:
+					case KC_COMM: case KC_DOT: case KC_SLSH:
+					case KC_LBRC: case KC_RBRC: case KC_BSLS:
+						UNREGISTER_MET;
+					break;
+
+					default:
+					break;
+				}
+
 				switch (keycode) {
 					case KC_B: // 削除
-						UNREGISTER_MET;
 						RF_KEY_SEQUENCE(SLCT_PARA DEL_TEXT);
 					break;
 
 					case KC_T:
-						UNREGISTER_MET;
 						RF_KEY_SEQUENCE(SLCT_WORD_RGHT DEL_TEXT);
 					break;
 
 					case KC_Y:
-						UNREGISTER_MET;
 						RF_KEY_SEQUENCE(SLCT_WORD_LEFT DEL_TEXT);
 					break;
 
 					case KC_COMM: // 行挿入後カーソル移動
-						UNREGISTER_MET;
 						RF_KEY_SEQUENCE(MOVE_PARA_TOP TAP_ENT MOVE_UP);
 					break;
 
 					case KC_DOT:
-						UNREGISTER_MET;
 						RF_KEY_SEQUENCE(MOVE_PARA_BTM MOVE_RGHT TAP_ENT MOVE_UP);
 					break;
 
 					case KC_SLSH: // 行複製
-						UNREGISTER_MET;
 						RF_KEY_SEQUENCE(SLCT_PARA CUT_TEXT PASTE_TEXT PASTE_TEXT MOVE_LEFT);
 					break;
 
 					case KC_LBRC: // 行移動
-						UNREGISTER_MET;
 						RF_KEY_SEQUENCE(SLCT_PARA CUT_TEXT MOVE_LEFT MOVE_PARA_TOP PASTE_TEXT MOVE_LEFT);
 					break;
 
 					case KC_RBRC:
-						UNREGISTER_MET;
 						RF_KEY_SEQUENCE(SLCT_PARA CUT_TEXT MOVE_PARA_BTM MOVE_RGHT PASTE_TEXT MOVE_LEFT);
 					break;
 
 					case KC_BSLS: // 000
-						UNREGISTER_MET;
 						RF_REPEAT_KEY(KC_0, 3);
 					break;
 

@@ -15,12 +15,12 @@
 #define RF_KEY_SEQUENCE(string) KEY_SEQUENCE(string); return false
 
 // KEY_SEQUENCE関数型マクロ用(セミコロン注意) =============================================
-#define TAP_ENT    tap_code(KC_ENT);
-#define TAP_SPC    tap_code(KC_SPC);
-#define MOVE_UP    tap_code(KC_UP);
-#define MOVE_RGHT  tap_code(KC_RGHT);
-#define MOVE_DOWN  tap_code(KC_DOWN);
-#define MOVE_LEFT  tap_code(KC_LEFT);
+#define TAP_ENT    TAP_CODE(KC_ENT);
+#define TAP_SPC    TAP_CODE(KC_SPC);
+#define MOVE_UP    TAP_CODE(KC_UP);
+#define MOVE_RGHT  TAP_CODE(KC_RGHT);
+#define MOVE_DOWN  TAP_CODE(KC_DOWN);
+#define MOVE_LEFT  TAP_CODE(KC_LEFT);
 #define CUT_TEXT   cut_text(global);
 #define PASTE_TEXT paste_text(global);
 #define DEL_TEXT   delete_text(global);

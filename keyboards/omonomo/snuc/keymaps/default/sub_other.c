@@ -25,7 +25,7 @@ static void change_width(letter_width_e after_width, letter_width_e *letter_widt
 			if (IS_HALF_SYMBOL) {
 				if (*letter_width == FULL || *letter_width == SYMBOL) {
 					UNREGISTER_MODS(_S _A);
-					tap_code(KK_EISU);
+					TAP_CODE(KK_EISU);
 					REGISTER_MODS_IF_PRESS(_S _E _A);
 				} // letter_width
 			} // IS_HALF_SYMBOL
@@ -36,7 +36,7 @@ static void change_width(letter_width_e after_width, letter_width_e *letter_widt
 			if (IS_HALF_SYMBOL) {
 				if (*letter_width == HALF || *letter_width == ROMAN) {
 					UNREGISTER_MODS(_S _A);
-					tap_code(KK_KANA);
+					TAP_CODE(KK_KANA);
 					REGISTER_MODS_IF_PRESS(_S _E _A);
 				} // letter_width
 			} // IS_HALF_SYMBOL
@@ -64,7 +64,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			case KC_PSLS ... KC_PDOT: // 全・半角切り替えモードに関係なく常に半角
 				if (IS_MOD_PRESS_EX(_P _F _M)) return;
 				if (LAST_KEYCODE < KC_PSLS || KC_PDOT < LAST_KEYCODE) { // 確実に半角にするため、異なる条件で判定
-					tap_code(KK_EISU);
+					TAP_CODE(KK_EISU);
 				} // LAST_KEYCODE
 				letter_width = HALF;
 				return;
@@ -72,7 +72,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 			case KC_APP: // 000を出力する場合常に半角
 				if (IS_OTHER_MOD_PRESS_ONLY(_F)) {
-					tap_code(KK_EISU);
+					TAP_CODE(KK_EISU);
 					letter_width = HALF;
 				} // IS_OTHER_MOD_PRESS_ONLY
 				return;
@@ -224,7 +224,7 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				return false;
 			} else { // IS_KEY_PRESS
 				if (!IS_KEY_PRESS_AFTER_MOD) {
-					register_code(KC_APP);
+					REGISTER_CODE(KC_APP);
 				} // IS_KEY_PRESS_AFTER_MOD
 			} // IS_KEY_PRESS
 		break;

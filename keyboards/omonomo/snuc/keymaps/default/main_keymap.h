@@ -78,9 +78,8 @@ enum various {
 #define IS_MAC (global->operating_system == MAC)
 #define IS_IOS (global->operating_system == IOS)
 
-#define IS_ROMAZI_OFF  (global->romazi_mode % 3 == 0)
-#define IS_ROMAZI_TEMP (global->romazi_mode % 3 == 1)
-#define IS_ROMAZI_ON   (global->romazi_mode % 3 == 2)
+#define IS_ROMAZI_OFF  (global->romazi_mode % 2 == 0)
+#define IS_ROMAZI_ON   (global->romazi_mode % 2 == 1)
 
 #define IS_ROMAZI_NO_ON  (global->romazi_mode == NO_ON)
 #define IS_ROMAZI_OUT_ON (global->romazi_mode == OUT_ON)
@@ -108,15 +107,15 @@ enum various {
 #define OS_MAC global->operating_system = MAC
 #define OS_IOS global->operating_system = IOS
 
-#define ROMAZI_NO_OFF  global->romazi_mode = NO_OFF;  tap_code(KK_EISU)
-#define ROMAZI_NO_ON   global->romazi_mode = NO_ON;   tap_code(KK_KANA)
-#define ROMAZI_OUT_OFF global->romazi_mode = OUT_OFF; tap_code(KK_EISU)
-#define ROMAZI_OUT_ON  global->romazi_mode = OUT_ON;  tap_code(KK_KANA); layer_on(_MIZU)
-#define ROMAZI_IN_OFF  global->romazi_mode = IN_OFF;  tap_code(KK_EISU)
-#define ROMAZI_IN_ON   global->romazi_mode = IN_ON;   tap_code(KK_KANA)
-
 #define ROMAZI_OFF  global->romazi_mode -= global->romazi_mode % 2
 #define ROMAZI_ON   global->romazi_mode += 1 - (global->romazi_mode % 2)
+
+#define ROMAZI_NO_OFF  global->romazi_mode = NO_OFF;  TAP_CODE(KK_EISU)
+#define ROMAZI_NO_ON   global->romazi_mode = NO_ON;   TAP_CODE(KK_KANA)
+#define ROMAZI_OUT_OFF global->romazi_mode = OUT_OFF; TAP_CODE(KK_EISU)
+#define ROMAZI_OUT_ON  global->romazi_mode = OUT_ON;  TAP_CODE(KK_KANA); layer_on(_MIZU)
+#define ROMAZI_IN_OFF  global->romazi_mode = IN_OFF;  TAP_CODE(KK_EISU)
+#define ROMAZI_IN_ON   global->romazi_mode = IN_ON;   TAP_CODE(KK_KANA)
 
 #define KEYBOARD_US  global->various_flag &= ~(1 << JIS_KEYBOARD)
 #define KEYBOARD_JIS global->various_flag |=  (1 << JIS_KEYBOARD)
@@ -161,9 +160,9 @@ typedef enum {
 
 typedef struct {
 	system_e operating_system; // 使用OS Windows/macOS/iOS
-	romazi_e romazi_mode; // ローマ字モード(不使用-OFF/不使用-一時OFF/不使用-ON/
-	                      // 出力-OFF/出力-一時OFF/出力-ON/
-	                      // 入力-OFF/入力-一時OFF/入力-ON)
+	romazi_e romazi_mode; // ローマ字モード(不使用-OFF/不使用-ON/
+	                      // 出力-OFF/出力-ON/
+	                      // 入力-OFF/入力-ON)
 
 	uint16_t last2_keycode; // 前々回に押したキーコード
 	uint16_t last_keycode; // 前回押したキーコード

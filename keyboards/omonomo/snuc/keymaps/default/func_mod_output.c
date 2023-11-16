@@ -1,8 +1,9 @@
 #include "func_mod_output.h"
 
+#include "ini_config.h"
+#include "func_key_output.h"
 #include "main_code_layer.h"
 #include "main_keymap.h"
-#include "ini_config.h"
 
 // 補助関数 |||||||||||||||||||||||||||||||||||||||||||||
 
@@ -30,7 +31,7 @@ void register_p_mods(uint16_t reg_flag, global_s *global) {
 		if (reg_flag & (1 << i)) {
 			uint8_t reg_mod = (GUI_IS_CTL ? MOD_KC[i] : MOD_KG[i]);
 			if (!(get_mods() & (1 << PAIR_CODE_TO_GET_MODS(reg_mod)))) { // 対になるMODがレジストされていなければレジスト
-				register_code(reg_mod);
+				REGISTER_CODE(reg_mod);
 			} // get_mods
 		} // reg_flag
 	} // i
@@ -48,10 +49,9 @@ void unregister_p_mods(uint16_t reg_flag, global_s *global) {
 	P_MOD_FLAG_FILTER(&reg_flag);
 	for (int8_t i = 0; i < 16; ++i) {
 		if (reg_flag & (1 << i)) {
-			unregister_code(GUI_IS_CTL ? MOD_KC[i] : MOD_KG[i]);
+			UNREGISTER_CODE(GUI_IS_CTL ? MOD_KC[i] : MOD_KG[i]);
 		} // reg_flag
 	} // i
-	wait_ms(TAP_AFTER_DELAY_S);
 	return;
 }
 
@@ -62,7 +62,7 @@ void register_p_mod_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *gl
 
 	if (!FIND_P_MOD(reg_mod       , target_flag)
 	&&  !FIND_P_MOD(reg_mod ^ 0x04, target_flag)) { // reg_modとその対になるMODが押されていなければレジスト
-		register_code(reg_mod);
+		REGISTER_CODE(reg_mod);
 	} // FIND_P_MOD
 	return;
 }
@@ -74,8 +74,7 @@ void unregister_p_mod_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *
 
 	if (!FIND_P_MOD(reg_mod, target_flag)) {
 		INVALID_ONE_SHOT(reg_mod);
-		unregister_code(reg_mod);
-		wait_ms(TAP_AFTER_DELAY_S);
+		UNREGISTER_CODE(reg_mod);
 	} // FIND_P_MOD
 	return;
 }
@@ -147,9 +146,9 @@ bool invalid_one_shot(uint8_t reg_mod, global_s *global) {
 	const uint8_t GET_MODS = get_mods();
 
 	if (GET_MODS & MOD_MASK_CTRL) {
-		tap_code(GET_MODS & MOD_BIT(KC_LCTL) ? KC_RCTL : KC_LCTL);
+		TAP_CODE(GET_MODS & MOD_BIT(KC_LCTL) ? KC_RCTL : KC_LCTL);
 	} else { // GET_MODS
-		tap_code(GET_MODS & MOD_BIT(KC_LSFT) ? KC_RSFT : KC_LSFT); // わざとSFTかCTLをタップさせる
+		TAP_CODE(GET_MODS & MOD_BIT(KC_LSFT) ? KC_RSFT : KC_LSFT); // わざとSFTかCTLをタップさせる
 	} // GET_MODS
 	KEY_PRESS_AFTER_MOD_ON;
 	return false;

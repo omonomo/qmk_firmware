@@ -33,10 +33,10 @@ bool is_tap(uint16_t keycode) {
 // 戻り値: true-離した時、false-押した時
 bool replace_mod(uint8_t rep_mod, keyrecord_t *record) {
 	if (IS_KEY_PRESS) {
-		register_code(rep_mod);
+		REGISTER_CODE(rep_mod);
 		return false;
 	} else { // IS_KEY_PRESS
-		unregister_code(rep_mod);
+		UNREGISTER_CODE(rep_mod);
 	} // IS_KEY_PRESS
 	return true;
 }
@@ -93,8 +93,7 @@ bool replace_mod_tap_key16(uint16_t tap_key, uint8_t rep_mod, uint16_t rp_mod_ma
 	const uint16_t IS_MOD_PRESS_NP = IS_ANY_MOD_PRESS & np_mod_mask;
 
 	if (tap_key == 0) { // タップされるキーコードが0でMODを元に戻す
-		unregister_code(replaced_keycode);
-		wait_ms(TAP_AFTER_DELAY_S);
+		UNREGISTER_CODE(replaced_keycode);
 		REGISTER_P_MODS(replaced_keycode == 0 ? 0 : IS_ANY_OTHER_MOD_PRESS);
 		replaced_keycode = 0;
 		return true;
@@ -108,7 +107,7 @@ bool replace_mod_tap_key16(uint16_t tap_key, uint8_t rep_mod, uint16_t rp_mod_ma
 				INVALID_ONE_SHOT(P_MOD_FLAG_TO_CODE(IS_MOD_PRESS_RP));
 				UNREGISTER_P_MODS(IS_MOD_PRESS_RP);
 			} // FIND_P_MOD
-			register_code(replaced_keycode = rep_mod);
+			REGISTER_CODE(replaced_keycode = rep_mod);
 		} // replaced_keycode
 		TAP_CODE16(tap_key); // MODを押しながらもう一方のキーを押した時にタップ
 		return false; // タップ時にfalse
@@ -117,7 +116,7 @@ bool replace_mod_tap_key16(uint16_t tap_key, uint8_t rep_mod, uint16_t rp_mod_ma
 			KEY_PRESS_AFTER_MOD_ON; // ALT・GUI対策
 			return !FIND_P_MOD(replaced_keycode, code_to_p_mod_flag(keycode)); // 置き替えたキーと離したキーが異なる場合true、同じでfalse
 		} else { // IS_MOD_PRESS_RP
-			unregister_code(replaced_keycode); // 全て離した時置き替えたMODをアンレジスト
+			UNREGISTER_CODE(replaced_keycode); // 全て離した時置き替えたMODをアンレジスト
 			replaced_keycode = 0;
 		} // IS_MOD_PRESS_RP
 	} // IS_KEY_PRESS
@@ -136,13 +135,12 @@ bool mod_tap16(uint16_t tap_key, uint8_t hold_mod, uint16_t keycode, keyrecord_t
 			SET_MOD_TAP; // 押した時に初期設定
 		} // IS_TAP
 	} else { // IS_KEY_PRESS
+		UNREGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS); // hold_modとその対になるMODが押されていなければアンレジスト
 		if (IS_TAP) { // 設定時間内に同じキーを離したらタップ
-			SET_MOD_TAP; // 連続タップにそなえてカウンタを元に戻す
-			UNREGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS);
+			wait_ms(TAP_AFTER_DELAY_S);
 			TAP_CODE16(tap_key);
+			SET_MOD_TAP; // 連続タップにそなえてカウンタを元に戻す
 			return false; // タップ時にfalse
-		} else { // 設定時間を超えた場合
-			UNREGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS);
 		} // IS_TAP
 	} // IS_KEY_PRESS
 	return true;
@@ -153,19 +151,17 @@ bool mod_tap16(uint16_t tap_key, uint8_t hold_mod, uint16_t keycode, keyrecord_t
 // 戻り値: true-離した時、条件不成立で押した時、false-ダブルタップ時(条件成立で押した時)
 bool double_mod_tap16(uint16_t tap_key, uint8_t hold_mod, uint16_t keycode, keyrecord_t *record, global_s *global) {
 	if (IS_KEY_PRESS) {
-		if (IS_TAP) { // 設定時間内に同じキーを押したらタップ
+		if (IS_TAP) { // 設定時間内に同じキーを押しており
 			RST_MOD_TAP;
-			if (IS_ANY_OTHER_MOD_PRESS) { // ただし他のMODが押されていたらキャンセル
-				REGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS); // hold_modとその対になるMODが押されていなければレジスト
-				return true;
+			if (!IS_ANY_OTHER_MOD_PRESS) { // 他のMODが押されていなければタップ
+				TAP_CODE16(tap_key);
+				MOD_DIFFERENT_ON;
+				return false; // ダブルタップ時にfalse
 			} // IS_ANY_OTHER_MOD_PRESS
-			TAP_CODE16(tap_key);
-			MOD_DIFFERENT_ON;
-			return false; // ダブルタップ時にfalse
 		} else { // IS_TAP 1回目のキーを押した時に初期設定
-			REGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS);
 			SET_MOD_TAP;
 		} // IS_TAP
+		REGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS); // タップ不成立で押した場合hold_modをレジスト
 	} else { // IS_KEY_PRESS
 		if (!IS_MOD_DIFFERENT) { // タップ不成立で離した場合
 			UNREGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS);

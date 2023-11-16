@@ -45,7 +45,7 @@ void paste_text(global_s *global) {
 
 // 削除関数 #############################################
 void delete_text(global_s *global) {
-	tap_code(IS_WIN ? KC_DEL : KC_BSPC);
+	TAP_CODE(IS_WIN ? KC_DEL : KC_BSPC);
 	return;
 }
 
@@ -107,17 +107,17 @@ void edit_text(textedit_e select, textedit_e range, textedit_e direction, global
 
 // 全体以外 ---------------------------------------------
 	if (select == SLCT) {
-		register_code(KC_LSFT);
+		REGISTER_CODE(KC_LSFT);
 	} // SLCT
 	switch (range) {
 		case CHAR:
 			switch (direction) {
 				case LEFT: // 文字左
-					tap_code(KC_LEFT);
+					TAP_CODE(KC_LEFT);
 				break;
 
 				case RGHT: //文字右
-					tap_code(KC_RGHT);
+					TAP_CODE(KC_RGHT);
 				break;
 
 				default:
@@ -159,10 +159,10 @@ void edit_text(textedit_e select, textedit_e range, textedit_e direction, global
 			switch (direction) {
 				case TOP: // 文頭
 					if (IS_WIN) {
-						tap_code(KC_HOME);
+						TAP_CODE(KC_HOME);
 					} else {
 						if (!IS_MOD_PRESS(_S _E) && !select) {
-							tap_code(KC_RGHT);
+							TAP_CODE(KC_RGHT);
 						}
 						TAP_CODE16(A(KC_UP));
 					}
@@ -170,10 +170,10 @@ void edit_text(textedit_e select, textedit_e range, textedit_e direction, global
 
 				case BTM: // 文末
 					if (IS_WIN) {
-						tap_code(KC_END);
+						TAP_CODE(KC_END);
 					} else {
 						if (!IS_MOD_PRESS(_S _E) && !select) {
-							tap_code(KC_LEFT);
+							TAP_CODE(KC_LEFT);
 						}
 						TAP_CODE16(A(KC_DOWN));
 					}
@@ -190,7 +190,7 @@ void edit_text(textedit_e select, textedit_e range, textedit_e direction, global
 					if (IS_WIN) {
 						TAP_CODE16(C(KC_HOME));
 					} else if (IS_MAC) { // IS_WIN
-						tap_code(KC_HOME);
+						TAP_CODE(KC_HOME);
 					} else { // IS_MAC
 						TAP_CODE16(G(KC_UP));
 					}
@@ -200,7 +200,7 @@ void edit_text(textedit_e select, textedit_e range, textedit_e direction, global
 					if (IS_WIN) {
 						TAP_CODE16(C(KC_END));
 					} else if (IS_MAC) { // IS_WIN
-						tap_code(KC_END);
+						TAP_CODE(KC_END);
 					} else { // IS_MAC
 						TAP_CODE16(G(KC_DOWN));
 					}
@@ -215,7 +215,7 @@ void edit_text(textedit_e select, textedit_e range, textedit_e direction, global
 		break;
 	}
 	if (select == SLCT) {
-		unregister_code(KC_LSFT);
+		UNREGISTER_CODE(KC_LSFT);
 	} // SLCT
 	return;
 }

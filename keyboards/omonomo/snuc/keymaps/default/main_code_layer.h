@@ -1,6 +1,7 @@
 #pragma once
 
 #include QMK_KEYBOARD_H
+#include "func_key_output.h"
 
 // キー置き替え #############################################
 #define X_HYPR(code) (IS_WIN ? C(S(A(code))) : HYPR(code))
@@ -16,8 +17,8 @@
 // METキー #############################################
 #define MET_KEY KC_LCTL
 #define M(code) C(code)
-#define UNREGISTER_MET unregister_code(MET_KEY)
-#define REGISTER_MET     register_code(MET_KEY)
+#define UNREGISTER_MET UNREGISTER_CODE(MET_KEY)
+#define REGISTER_MET     REGISTER_CODE(MET_KEY)
 
 // switch case文用 #############################################
 #define CS_LCTL KC_LCTL: case DT_LCTL_HYPR // 物理的に同じキーをまとめる

@@ -354,11 +354,11 @@ bool pr_romazi_input(uint16_t keycode, keyrecord_t *record, global_s *global) {
 	} // j
 // 単打 ---------------------------------------------
 	if (keycode == KC_LBRC) { // 「
-		tap_code(KC_S);
+		TAP_CODE(KC_S);
 		RF_TAP_CODE_UJ(KC_LBRC, KC_RBRC);
 	}
 	if (keycode == KC_RBRC) { // 」
-		tap_code(KC_S);
+		TAP_CODE(KC_S);
 		RF_TAP_CODE_UJ(KC_RBRC, KC_NUHS);
 	}
 	if (KC_A <= keycode && keycode <= KC_Z) return false; // 単打でのカナ出力防止

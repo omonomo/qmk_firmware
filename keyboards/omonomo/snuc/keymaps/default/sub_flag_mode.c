@@ -18,7 +18,7 @@ void ms_wakeup(global_s *global) {
 	if (!IS_WAKEFUL) return;
 
 	if (REPEAT_COUNT == 0) { // 不眠させるため、定期的にLCTLをタップ
-		tap_code(KC_LCTL);
+		TAP_CODE(KC_LCTL);
 		SET_REPEAT_COUNT(WAKEUP_TH); // たたき起こし間隔を再セット
 	} // REPEAT_COUNT
 	return;
@@ -125,36 +125,36 @@ bool pr_mode_change(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			LAYOUT_COLEMAK;
 			GAME_MODE_OFF;
 			ROMAZI_OFF;
-			tap_code(KK_EISU);
+			TAP_CODE(KK_EISU);
 		break;
 
 		case CK_QWTY:
 			LAYOUT_QWERTY;
 			GAME_MODE_OFF;
 			ROMAZI_OFF;
-			tap_code(KK_EISU);
+			TAP_CODE(KK_EISU);
 		break;
 
 		case CK_GAME:
 			LAYOUT_QWERTY;
 			GAME_MODE_ON;
 			ROMAZI_OFF;
-			tap_code(KK_EISU);
+			TAP_CODE(KK_EISU);
 		break;
 // 各OS対応モード切り替え ---------------------------------------------
 		case CK_WIN:
-			tap_code(KC_F21); // USBtoBT+用
+			TAP_CODE(KC_F21); // USBtoBT+用
 			WIN_DEFAULT;
 		break;
 
 		case CK_MAC:
-			tap_code(KC_F22);
+			TAP_CODE(KC_F22);
 			MAC_DEFAULT;
 		break;
 
 		case CK_IPHN:
 		case CK_IPAD:
-			tap_code(keycode == CK_IPAD ? KC_F23 : KC_F24);
+			TAP_CODE(keycode == CK_IPAD ? KC_F23 : KC_F24);
 			IOS_DEFAULT;
 		break;
 // ローマ字入出力切り替え ---------------------------------------------
