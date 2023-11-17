@@ -114,7 +114,7 @@ bool replace_mod_tap_key16(uint16_t tap_key, uint8_t rep_mod, uint16_t rp_mod_ma
 	} else { // IS_KEY_PRESS
 		if (IS_MOD_PRESS_RP) { // 必須のMODが押されている場合
 			KEY_PRESS_AFTER_MOD_ON; // ALT・GUI対策
-			return !FIND_P_MOD(replaced_keycode, code_to_p_mod_flag(keycode)); // 置き替えたキーと離したキーが異なる場合true、同じでfalse
+			return !FIND_P_MOD(replaced_keycode, CODE_TO_P_MOD_FLAG(keycode)); // 置き替えたキーと離したキーが異なる場合true、同じでfalse
 		} else { // IS_MOD_PRESS_RP
 			UNREGISTER_CODE(replaced_keycode); // 全て離した時置き替えたMODをアンレジスト
 			replaced_keycode = 0;

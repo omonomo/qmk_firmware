@@ -26,7 +26,7 @@ void ms_wakeup(global_s *global) {
 
 // MOD押下フラグ #############################################
 void pr_p_mod_flag(uint16_t keycode, keyrecord_t *record, global_s *global) {
-	const uint16_t CHANGE_FLAG = code_to_p_mod_flag(keycode);
+	const uint16_t CHANGE_FLAG = CODE_TO_P_MOD_FLAG(keycode);
 
 	if (IS_KEY_PRESS) {
 		PC_SLEEPY; // 不眠モード解除

@@ -142,7 +142,9 @@ enum p_mod_flag_bit {
 #define REGISTER_P_MOD_IF_ALONE(code, flag)     register_p_mod_if_alone(code, flag, global)
 
 #define FIND_P_MOD(code, flag) find_p_mod(code, flag, global)
+#define CODE_TO_P_MOD_FLAG(flag) code_to_p_mod_flag(flag)
 #define P_MOD_FLAG_TO_CODE(flag) p_mod_flag_to_code(flag, global)
+
 #define INVALID_ONE_SHOT(mod) invalid_one_shot(mod, global)
 
 // 関数プロトタイプ宣言 #############################################
