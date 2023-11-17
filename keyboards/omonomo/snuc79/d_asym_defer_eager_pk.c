@@ -1,1 +1,0 @@
-/Users/shigeharu/Developments/qmk_firmware/keyboards/omonomo/snuc/d_asym_defer_eager_pk.c
