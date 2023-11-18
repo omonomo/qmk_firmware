@@ -138,8 +138,8 @@ enum p_mod_flag_bit {
 #define UNREGISTER_P_MODS(flag) unregister_p_mods(flag, global)
 #define REGISTER_P_MODS(flag)     register_p_mods(flag, global)
 
-#define UNREGISTER_P_MOD_IF_ALONE(code, flag) unregister_p_mod_if_alone(code, flag, global)
-#define REGISTER_P_MOD_IF_ALONE(code, flag)     register_p_mod_if_alone(code, flag, global)
+#define UNREGISTER_MOD_CODE_IF_ALONE(code, flag) unregister_mod_code_if_alone(code, flag, global)
+#define REGISTER_MOD_CODE(code)     register_mod_code(code, global)
 
 #define FIND_P_MOD(code, flag) find_p_mod(code, flag, global)
 #define CODE_TO_P_MOD_FLAG(flag) code_to_p_mod_flag(flag)
@@ -153,8 +153,8 @@ void p_mod_flag_filter(uint16_t *target_flag, global_s *global);
 void register_p_mods(uint16_t reg_flag, global_s *global);
 void unregister_p_mods(uint16_t reg_flag, global_s *global);
 
-void register_p_mod_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *global);
-void unregister_p_mod_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *global);
+void register_mod_code(uint8_t reg_mod, global_s *global);
+void unregister_mod_code_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *global);
 
 bool find_p_mod(uint8_t source_mod, uint16_t target_flag, global_s *global);
 uint16_t code_to_p_mod_flag(uint16_t mod_key);

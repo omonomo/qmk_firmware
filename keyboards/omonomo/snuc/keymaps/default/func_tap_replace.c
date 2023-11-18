@@ -75,7 +75,7 @@ bool up_mod_replace_key16(uint16_t rep_key, uint16_t rp_mod_mask, uint16_t reg_m
 		if (IS_KEY_PRESS) {
 			if (!IS_MOD_PRESS_RP) return true;
 			if (!(rp_mod_mask & reg_mod_mask)) { // 押していればレジストするMODに必須モッドが含まれていない場合
-				UNREGISTER_P_MOD_IF_ALONE(P_MOD_FLAG_TO_CODE(IS_MOD_PRESS_RP), IS_MOD_PRESS_XP); // 必須MODと同じキーコードのキーを押していなければアンレジスト
+				UNREGISTER_MOD_CODE_IF_ALONE(P_MOD_FLAG_TO_CODE(IS_MOD_PRESS_RP), IS_MOD_PRESS_XP); // 必須MODと同じキーコードのキーを押していなければアンレジスト
 			} // mod_up
 			REGISTER_P_MODS(IS_MOD_PRESS_RG);
 		} // IS_KEY_PRESS
@@ -131,11 +131,11 @@ bool mod_tap16(uint16_t tap_key, uint8_t hold_mod, uint16_t keycode, keyrecord_t
 		if (IS_TAP) { // 連続タップ時はhold_modをレジストしない
 			MOD_DIFFERENT_ON;
 		} else { // IS_TAP
-			REGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS); // hold_modとその対になるMODが押されていなければレジスト
+			REGISTER_MOD_CODE(hold_mod); // hold_modとその対になるMODが押されていなければレジスト
 			SET_MOD_TAP; // 押した時に初期設定
 		} // IS_TAP
 	} else { // IS_KEY_PRESS
-		UNREGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS); // hold_modとその対になるMODが押されていなければアンレジスト
+		UNREGISTER_MOD_CODE_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS); // hold_modとその対になるMODが押されていなければアンレジスト
 		if (IS_TAP) { // 設定時間内に同じキーを離したらタップ
 			wait_ms(TAP_AFTER_DELAY_S);
 			TAP_CODE16(tap_key);
@@ -161,10 +161,10 @@ bool double_mod_tap16(uint16_t tap_key, uint8_t hold_mod, uint16_t keycode, keyr
 		} else { // IS_TAP 1回目のキーを押した時に初期設定
 			SET_MOD_TAP;
 		} // IS_TAP
-		REGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS); // タップ不成立で押した場合hold_modをレジスト
+		REGISTER_MOD_CODE(hold_mod); // タップ不成立で押した場合hold_modをレジスト
 	} else { // IS_KEY_PRESS
 		if (!IS_MOD_DIFFERENT) { // タップ不成立で離した場合
-			UNREGISTER_P_MOD_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS);
+			UNREGISTER_MOD_CODE_IF_ALONE(hold_mod, IS_ANY_OTHER_MOD_PRESS);
 		} // IS_MOD_DIFFERENT
 	} // IS_KEY_PRESS
 	return true;

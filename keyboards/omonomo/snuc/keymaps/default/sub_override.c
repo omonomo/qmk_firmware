@@ -27,8 +27,8 @@ static void set_sft_up_override(uint16_t reg_key);
 
 // SFTリセット関数 #############################################
 static void rst_sft(global_s *global) {
-	UNREGISTER_P_MOD_IF_ALONE(KC_RSFT, IS_ANY_OTHER_MOD_PRESS); // SFTを元に戻す
-	UNREGISTER_P_MOD_IF_ALONE(KC_LSFT, IS_ANY_OTHER_MOD_PRESS);
+	UNREGISTER_MOD_CODE_IF_ALONE(KC_RSFT, IS_ANY_OTHER_MOD_PRESS); // SFTを元に戻す
+	UNREGISTER_MOD_CODE_IF_ALONE(KC_LSFT, IS_ANY_OTHER_MOD_PRESS);
 	REGISTER_OTHER_MODS_IF_PRESS(_S _E);
 	return;
 }

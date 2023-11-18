@@ -56,12 +56,12 @@ void unregister_p_mods(uint16_t reg_flag, global_s *global) {
 }
 
 // 押下MODキーレジスト関数(既に押されていたらキャンセル) #############################################
-// 引数: 押すキーコード、検索対象MOD押下フラグ
-void register_p_mod_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *global) {
+// 引数: 押すキーコード
+void register_mod_code(uint8_t reg_mod, global_s *global) {
 //	if (reg_mod < KC_LCTL || KC_RGUI < reg_mod) return;
 
-	if (!FIND_P_MOD(reg_mod       , target_flag)
-	&&  !FIND_P_MOD(reg_mod ^ 0x04, target_flag)) { // reg_modとその対になるMODが押されていなければレジスト
+	if (!FIND_P_MOD(reg_mod       , IS_ANY_OTHER_MOD_PRESS)
+	&&  !FIND_P_MOD(reg_mod ^ 0x04, IS_ANY_OTHER_MOD_PRESS)) { // reg_modとその対になるMODが押されていなければレジスト
 		REGISTER_CODE(reg_mod);
 	} // FIND_P_MOD
 	return;
@@ -69,7 +69,7 @@ void register_p_mod_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *gl
 
 // 押下MODキーアンレジスト関数(他で押されていたらキャンセル) #############################################
 // 引数: 離すキーコード、検索対象MOD押下フラグ
-void unregister_p_mod_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *global) {
+void unregister_mod_code_if_alone(uint8_t reg_mod, uint16_t target_flag, global_s *global) {
 //	if (reg_mod < KC_LCTL || KC_RGUI < reg_mod) return;
 
 	if (!FIND_P_MOD(reg_mod, target_flag)) {

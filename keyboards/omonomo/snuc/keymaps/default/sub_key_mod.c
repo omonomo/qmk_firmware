@@ -308,7 +308,7 @@ bool pr_metkey(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 	if (!IS_KEY_PRESS) {
 		if (keycode == CK_MET) {
-			UNREGISTER_P_MOD_IF_ALONE(MET_KEY, IS_ANY_OTHER_MOD_PRESS);
+			UNREGISTER_MOD_CODE_IF_ALONE(MET_KEY, IS_ANY_OTHER_MOD_PRESS);
 			REGISTER_OTHER_MODS_IF_PRESS(_C _T _G);
 			return false;
 		} // keycode
@@ -498,7 +498,7 @@ bool pr_metkey(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			case KC_INS ... KC_PDOT: // テンキーはMETをレジストしない
 			case LT_CRSR_TAB: // また削除(MET-G etc)後キャレット移動等での誤操作防止
 			case LT_MODE_PENT:
-				UNREGISTER_P_MOD_IF_ALONE(MET_KEY, IS_MOD_PRESS_EX(_M));
+				UNREGISTER_MOD_CODE_IF_ALONE(MET_KEY, IS_MOD_PRESS_EX(_M));
 			break;
 
 			case KC_R:
@@ -523,7 +523,7 @@ bool pr_metkey(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 			case CK_MET: // MODを押している場合はMETをレジストしない(マウスモードでのMOD誤出力防止、
 				if (IS_MOD_PRESS(_C _T _S _E _A _G)) { // iOSのMOD両押し対策、SPCタップ前にMETをレジストさせない等)
-					UNREGISTER_P_MOD_IF_ALONE(MET_KEY, IS_ANY_OTHER_MOD_PRESS);
+					UNREGISTER_MOD_CODE_IF_ALONE(MET_KEY, IS_ANY_OTHER_MOD_PRESS);
 				} else { // IS_MOD_PRESS
 					REGISTER_MET;
 				} // IS_MOD_PRESS

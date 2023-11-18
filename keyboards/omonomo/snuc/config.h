@@ -51,7 +51,7 @@
 //#define COMBO_TERM 500
 
 /* Debounce Term */
-#define DEBOUNCE 10 // デバウンス時間
+#define DEBOUNCE 15 // デバウンス時間
 
 /* MouseKey setting */
 //#define MOUSEKEY_DELAY 200 // キーを押してからポインタが動き出すまでの時間
