@@ -152,7 +152,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			break;
 		}
 
-		letter_width -= letter_width % 2; // いずれの条件にも当てはまらない場合 ROMAN→HALF、SYMBOL→FULL
+		R_CHANGE_WIDTH(HALF); // いずれの条件にも当てはまらない(通常入力の数字・記号等)場合
 	} else { // IS_KEY_PRESS
 		switch (keycode) {
 			case MT_LGUI_EISU: // TAPした時に半角設定

@@ -88,36 +88,36 @@ bool up_mod_replace_key16(uint16_t rep_key, uint16_t rp_mod_mask, uint16_t reg_m
 // 戻り値: true-リセット、置き替えたMODと異なるキーを離した時、条件不一致で押した時
 //         false-タップ時(条件一致で押した時)、置き替えたMODと同じキーを離した時
 bool replace_mod_tap_key16(uint16_t tap_key, uint8_t rep_mod, uint16_t rp_mod_mask, uint16_t np_mod_mask, uint16_t keycode, keyrecord_t *record, global_s *global) {
-	static uint8_t replaced_keycode = 0; // 置き替えたMODキーコード
+	static uint8_t replaced_modifier = 0; // 置き替えたMODキーコード
 	const uint16_t IS_MOD_PRESS_RP = IS_ANY_MOD_PRESS & rp_mod_mask;
 	const uint16_t IS_MOD_PRESS_NP = IS_ANY_MOD_PRESS & np_mod_mask;
 
 	if (tap_key == 0) { // タップされるキーコードが0でMODを元に戻す
-		UNREGISTER_CODE(replaced_keycode);
-		REGISTER_P_MODS(replaced_keycode == 0 ? 0 : IS_ANY_OTHER_MOD_PRESS);
-		replaced_keycode = 0;
+		UNREGISTER_CODE(replaced_modifier);
+		REGISTER_P_MODS(replaced_modifier == 0 ? 0 : IS_ANY_OTHER_MOD_PRESS);
+		replaced_modifier = 0;
 		return true;
 	} // tap_key
 
 	if (IS_KEY_PRESS) {
 		if (!IS_MOD_PRESS_RP) return true; // MODの状態が異なる場合はキャンセル
 		if (IS_MOD_PRESS_NP) return true;
-		if (replaced_keycode == 0) { // 初回に押し続けるMODを変更
+		if (replaced_modifier == 0) { // 初回に押し続けるMODを変更
 			if (!FIND_P_MOD(rep_mod, IS_MOD_PRESS_RP)) { // 置き替えるキーと押しているキーが異なる場合アンレジスト
 				INVALID_ONE_SHOT(P_MOD_FLAG_TO_CODE(IS_MOD_PRESS_RP));
 				UNREGISTER_P_MODS(IS_MOD_PRESS_RP);
 			} // FIND_P_MOD
-			REGISTER_CODE(replaced_keycode = rep_mod);
-		} // replaced_keycode
+			REGISTER_CODE(replaced_modifier = rep_mod);
+		} // replaced_modifier
 		TAP_CODE16(tap_key); // MODを押しながらもう一方のキーを押した時にタップ
 		return false; // タップ時にfalse
 	} else { // IS_KEY_PRESS
 		if (IS_MOD_PRESS_RP) { // 必須のMODが押されている場合
 			KEY_PRESS_AFTER_MOD_ON; // ALT・GUI対策
-			return !FIND_P_MOD(replaced_keycode, CODE_TO_P_MOD_FLAG(keycode)); // 置き替えたキーと離したキーが異なる場合true、同じでfalse
+			return !FIND_P_MOD(replaced_modifier, CODE_TO_P_MOD_FLAG(keycode)); // 置き替えたキーと離したキーが異なる場合true、同じでfalse
 		} else { // IS_MOD_PRESS_RP
-			UNREGISTER_CODE(replaced_keycode); // 全て離した時置き替えたMODをアンレジスト
-			replaced_keycode = 0;
+			UNREGISTER_CODE(replaced_modifier); // 全て離した時置き替えたMODをアンレジスト
+			replaced_modifier = 0;
 		} // IS_MOD_PRESS_RP
 	} // IS_KEY_PRESS
 	return true;

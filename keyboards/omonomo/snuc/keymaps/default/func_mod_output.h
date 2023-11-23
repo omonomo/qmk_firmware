@@ -17,7 +17,7 @@ enum p_mod_flag_bit {
 	TAB         // LAYER_TAB  B
 };
 
-#define P_MOD_FLAG_KEY_G /* フラグに対応するキーコード(gui2ctlオフ時 register_p_mods用) */ \
+#define P_MOD_FLAG_KEY_G /* フラグに対応するキーコード(gui2ctlオフ時 p_mod_flag_to_code用) */ \
 	KC_LCTL, KC_RCTL,\
 	KC_RCTL,\
 	KC_LSFT, KC_RSFT,\
@@ -29,7 +29,7 @@ enum p_mod_flag_bit {
 	MET_KEY,\
 	0
 
-#define P_MOD_FLAG_KEY_C /* フラグに対応するキーコード(gui2ctlオン時 register_p_mods用) */ \
+#define P_MOD_FLAG_KEY_C /* フラグに対応するキーコード(gui2ctlオン時 p_mod_flag_to_code用) */ \
 	KC_LGUI, KC_RGUI,\
 	KC_RCTL,\
 	KC_LSFT, KC_RSFT,\
@@ -122,10 +122,7 @@ enum p_mod_flag_bit {
 
 #define REGISTER_MODS(bit)          REGISTER_P_MODS(MOD_MASK(bit))
 #define REGISTER_MODS_IF_PRESS(bit) REGISTER_P_MODS(IS_MOD_PRESS(bit))
-#define REGISTER_MODS_IF_KEY_RELEASE(bit) \
-	if (!IS_KEY_PRESS) {\
-		REGISTER_MODS_IF_PRESS(bit);\
-	}
+#define REGISTER_MODS_IF_KEY_RELEASE(bit) if (!IS_KEY_PRESS) {REGISTER_MODS_IF_PRESS(bit);}
 #define REGISTER_OTHER_MODS_IF_PRESS(bit) REGISTER_P_MODS(IS_OTHER_MOD_PRESS(bit))
 
 // get_mods()用のフラグ取得 #############################################

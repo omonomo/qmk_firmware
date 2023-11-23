@@ -23,17 +23,15 @@ void p_mod_flag_filter(uint16_t *target_flag, global_s *global) {
 void register_p_mods(uint16_t reg_flag, global_s *global) {
 	if (reg_flag == 0) return;
 
-	const uint8_t MOD_KC[] = {P_MOD_FLAG_KEY_C};
-	const uint8_t MOD_KG[] = {P_MOD_FLAG_KEY_G};
-
 	P_MOD_FLAG_FILTER(&reg_flag);
 	for (int8_t i = 15; 0 <= i; --i) {
-		if (reg_flag & (1 << i)) {
-			uint8_t reg_mod = (GUI_IS_CTL ? MOD_KC[i] : MOD_KG[i]);
-			if (!(get_mods() & (1 << PAIR_CODE_TO_GET_MODS(reg_mod)))) { // 対になるMODがレジストされていなければレジスト
-				REGISTER_CODE(reg_mod);
+		uint16_t j = reg_flag & (1 << i);
+		if (j) {
+			uint8_t k = P_MOD_FLAG_TO_CODE(j);
+			if (!(get_mods() & (1 << PAIR_CODE_TO_GET_MODS(k)))) { // 対になるMODがレジストされていなければレジスト
+				REGISTER_CODE(k);
 			} // get_mods
-		} // reg_flag
+		} // j
 	} // i
 	return;
 }
@@ -43,14 +41,12 @@ void register_p_mods(uint16_t reg_flag, global_s *global) {
 void unregister_p_mods(uint16_t reg_flag, global_s *global) {
 	if (reg_flag == 0) return;
 
-	const uint8_t MOD_KC[] = {P_MOD_FLAG_KEY_C};
-	const uint8_t MOD_KG[] = {P_MOD_FLAG_KEY_G};
-
 	P_MOD_FLAG_FILTER(&reg_flag);
 	for (int8_t i = 0; i < 16; ++i) {
-		if (reg_flag & (1 << i)) {
-			UNREGISTER_CODE(GUI_IS_CTL ? MOD_KC[i] : MOD_KG[i]);
-		} // reg_flag
+		uint16_t j = reg_flag & (1 << i);
+		if (j) {
+			UNREGISTER_CODE(P_MOD_FLAG_TO_CODE(j));
+		} // j
 	} // i
 	return;
 }
@@ -150,6 +146,7 @@ bool invalid_one_shot(uint8_t reg_mod, global_s *global) {
 	} else { // GET_MODS
 		TAP_CODE(GET_MODS & MOD_BIT(KC_LSFT) ? KC_RSFT : KC_LSFT); // わざとSFTかCTLをタップさせる
 	} // GET_MODS
+	wait_ms(TAP_AFTER_DELAY_S);
 	KEY_PRESS_AFTER_MOD_ON;
 	return false;
 }

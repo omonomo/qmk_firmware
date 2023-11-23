@@ -83,11 +83,11 @@ DYNAMIC_TAPPING_TERM_ENABLE = no # Allows to configure the global tapping term o
 CONSOLE_ENABLE = no	    # Console for debug(+400)
 LTO_ENABLE = yes        # Link Time Optimize (-3000)
 #DEBOUNCE_TYPE = sym_eager_pk # Debounce_algolithm
-#DEBOUNCE_TYPE = sym_defer_pk # Debounce_algolithm
+DEBOUNCE_TYPE = sym_defer_pk # Debounce_algolithm
 #DEBOUNCE_TYPE = sym_defer_g # Debounce_algolithm Default
 
-DEBOUNCE_TYPE = custom # Debounce_algolithm Custom
-SRC += d_asym_defer_eager_pk.c
+#DEBOUNCE_TYPE = custom # Debounce_algolithm Custom
+#SRC += d_asym_defer_eager_pk.c
 SRC += func_edit_text.c\
 	func_key_output.c\
 	func_mod_output.c\

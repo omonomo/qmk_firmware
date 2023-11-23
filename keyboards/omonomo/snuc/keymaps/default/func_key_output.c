@@ -11,7 +11,6 @@
 bool repeat_key(uint8_t tap_key, uint8_t times) {
 	for (int8_t i = 0; i < times; ++i) {
 		TAP_CODE(tap_key);
-		wait_ms(TAP_AFTER_DELAY_S);
 	} // i
 	return false;
 }
