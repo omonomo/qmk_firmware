@@ -81,12 +81,14 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			default:
 			break;
 		}
+	}
 
 		if (IS_ROMAZI_OFF) return; // ROMAZI_OFFでキャンセル
 // 日本語入力モード時のみ ---------------------------------------------
 		if (IS_WIN ? IS_OTHER_MOD_PRESS_EX(_S _E _B) : IS_OTHER_MOD_PRESS_EX(_S _E _A _B)) return; // 特定のMOD以外を押していたらそのまま
 		const bool IS_SAB_PRESS = IS_WIN ? IS_OTHER_MOD_PRESS(_S _B) : IS_OTHER_MOD_PRESS(_S _A _B); // 全角出力するMODキー
 
+	if (IS_KEY_PRESS) {
 		switch (keycode) {
 			case RM_A ... RM_TEN: // 常に全角
 				R_CHANGE_WIDTH(FULL);
@@ -167,6 +169,15 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				if (IS_MOD_PRESS_EX(_S _E)) return;
 				if (IS_TAP) {
 					letter_width = FULL;
+				} // IS_TAP
+				return;
+			break;
+
+			case MT_LSFT_SPC:
+			case MT_RSFT_SPC:
+				if (IS_MOD_PRESS_EX(_S _E)) return;
+				if (IS_TAP) {
+					R_CHANGE_WIDTH(FULL);
 				} // IS_TAP
 				return;
 			break;
