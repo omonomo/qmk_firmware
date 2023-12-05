@@ -122,10 +122,10 @@
 		_______,       _______,       _______,       _______,       _______,                      _______,       _______,\
 \
 		_______,       _______,       _______,       _______,       _______,       _______,                      _______,\
-		_______,       _______,       _______,       _______,       _______,       KC_PAST,       KC_PMNS,       KC_PPLS,\
-		_______,       _______,       _______,       _______,       _______,       KC_HOME,       KC_PSLS,       KC_PGUP,\
-		_______,       _______,       _______,       _______,             _______, KC_END,        KC_UP,         KC_PGDN,\
-		_______,       _______,       _______,       _______,             _______, KC_LEFT,       KC_DOWN,       KC_RGHT\
+		_______,       _______,       _______,       _______,       _______,       KC_HOME,       KC_PGUP,       KC_PSLS,\
+		_______,       _______,       _______,       _______,       _______,       KC_END,        KC_PGDN,       KC_PAST,\
+		_______,       _______,       _______,       _______,             _______, KC_UP,         CK_000,        KC_PMNS,\
+		_______,       _______,       _______,       KC_LEFT,             _______, KC_DOWN,       KC_RGHT,       KC_PPLS\
 	),\
 \
 	[_LFNC] = LAYOUT( /* 左FNキーでON */ \
@@ -179,9 +179,9 @@
 \
 		XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       _______,                      _______,\
 		MS_UP,         XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
-		MS_LEFT,       MS_RGHT,       XXXXXXX,       XXXXXXX,       _______,       XXXXXXX,       XXXXXXX,       MS_WUP,\
-		MS_DOWN,       XXXXXXX,       XXXXXXX,       _______,             _______, XXXXXXX,       MS_UP,         MS_WDWN,\
-		_______,       _______,       _______,       _______,             XXXXXXX, MS_LEFT,       MS_DOWN,       MS_RGHT\
+		MS_LEFT,       MS_RGHT,       XXXXXXX,       XXXXXXX,       _______,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
+		MS_DOWN,       XXXXXXX,       XXXXXXX,       _______,             _______, MS_UP,         XXXXXXX,       MS_WUP,\
+		_______,       _______,       _______,       MS_LEFT,             XXXXXXX, MS_DOWN,       MS_RGHT,       MS_WDWN\
 	)
 
 // End |||||||||||||||||||||||||||||||||||||||||||||

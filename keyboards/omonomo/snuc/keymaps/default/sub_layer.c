@@ -108,7 +108,7 @@ void pr_layer_change(global_s *global) {
 	} // IS_ROMAZI_OUT_ON
 
 	if (IS_MOD_PRESS(_F _B) // FNかテンキーTABを押しているか、
-	|| (!IS_MOD_PRESS(_M) && IS_MOD_PRESS_EX(_M))) {// METを押さずに他のMODを押したときは_CURSORレイヤーON
+	|| (!IS_MOD_PRESS(_M) && IS_MOD_PRESS_EX(_M _P))) {// METを押さずにAPP以外のMODを押したときは_CURSORレイヤーON
 		layer_on(_CURSOR);
 	} else { // IS_MOD_PRESS_EX
 		layer_off(_CURSOR);

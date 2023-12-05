@@ -228,10 +228,6 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			if (IS_GAME_MODE) return true;
 			if (IS_KEY_PRESS) {
 				MOD_DIFFERENT_ON;
-				if (IS_OTHER_MOD_PRESS_ONLY(_F)) { // FNを押しながらで 000
-					KEY_PRESS_AFTER_MOD_ON;
-					RF_REPEAT_KEY(KC_P0, 3);
-				} // IS_OTHER_MOD_PRESS_ONLY
 				return false;
 			} else { // IS_KEY_PRESS
 				if (!IS_KEY_PRESS_AFTER_MOD) {
@@ -247,6 +243,12 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 					RF_TAP_CODE16(X_HYPR(keycode));
 				} // IS_KEY_PRESS
 			} // IS_MOD_PRESS_ONLY
+		break;
+
+		case CK_000:
+			if (IS_KEY_PRESS) {
+				RF_REPEAT_KEY(KC_P0, 3);
+			} // IS_KEY_PRESS
 		break;
 
 		default:
