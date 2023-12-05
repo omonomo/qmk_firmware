@@ -179,9 +179,9 @@
 \
 		XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       _______,                      _______,\
 		MS_UP,         XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
-		MS_LEFT,       MS_RGHT,       XXXXXXX,       XXXXXXX,       _______,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
-		MS_DOWN,       XXXXXXX,       XXXXXXX,       _______,             _______, MS_UP,         XXXXXXX,       MS_WUP,\
-		_______,       _______,       _______,       MS_LEFT,             XXXXXXX, MS_DOWN,       MS_RGHT,       MS_WDWN\
+		MS_LEFT,       MS_RGHT,       XXXXXXX,       XXXXXXX,       _______,       XXXXXXX,       XXXXXXX,       MS_WUP,\
+		MS_DOWN,       XXXXXXX,       XXXXXXX,       _______,             _______, XXXXXXX,       MS_UP,         MS_WDWN,\
+		_______,       _______,       _______,       _______,             XXXXXXX, MS_LEFT,       MS_DOWN,       MS_RGHT\
 	)
 
 // End |||||||||||||||||||||||||||||||||||||||||||||
