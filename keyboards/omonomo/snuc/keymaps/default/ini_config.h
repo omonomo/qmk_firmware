@@ -13,7 +13,7 @@
 #define MOD_TAP_TH  400 // モッドタップ有効期間
 #define CHANGE_OVERRIDE_DELAY 400 // キーオーバーライド移行後待ち時間
 
-#define TAP_AFTER_DELAY_S  15 // タップ後待ち時間(ms)
+#define TAP_AFTER_DELAY_S  20 // タップ後待ち時間(ms)
 #define TAP_AFTER_DELAY_L 100 // カット・ペースト後待ち時間(iOS用・ms)
 
 #define CURSOR_MVS  10 // キャレット移動回数(少)
