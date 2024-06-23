@@ -474,7 +474,8 @@ bool pr_metkey(uint16_t keycode, keyrecord_t *record, global_s *global) {
 					break;
 
 					case KC_SLSH: // 行複製
-						RF_KEY_SEQUENCE(SLCT_PARA CUT_TEXT PASTE_TEXT PASTE_TEXT MOVE_LEFT);
+						RF_KEY_SEQUENCE(MOVE_PARA_BTM TAP_ENT SLCT_PARA DEL_TEXT MOVE_LEFT
+						                SLCT_PARA CUT_TEXT PASTE_TEXT PASTE_TEXT MOVE_LEFT);
 					break;
 
 					case KC_LBRC: // 行移動
@@ -482,7 +483,8 @@ bool pr_metkey(uint16_t keycode, keyrecord_t *record, global_s *global) {
 					break;
 
 					case KC_RBRC:
-						RF_KEY_SEQUENCE(SLCT_PARA CUT_TEXT MOVE_PARA_BTM MOVE_RGHT PASTE_TEXT MOVE_LEFT);
+						RF_KEY_SEQUENCE(MOVE_PARA_BTM MOVE_RGHT MOVE_PARA_BTM TAP_ENT SLCT_PARA DEL_TEXT MOVE_LEFT MOVE_PARA_TOP MOVE_LEFT
+					                  SLCT_PARA CUT_TEXT MOVE_PARA_BTM MOVE_RGHT PASTE_TEXT MOVE_LEFT);
 					break;
 
 					case KC_BSLS: // 000
