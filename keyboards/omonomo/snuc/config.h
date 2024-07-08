@@ -39,7 +39,7 @@
 
 /* Tap setting */
 //#define TAPPING_TERM 300
-#define TAP_CODE_DELAY 20
+#define TAP_CODE_DELAY 15
 //#define PERMISSIVE_HOLD // TAPPING_TERM経過前に他のキーを押すとHOLD(離した時に出力)
 //#define HOLD_ON_OTHER_KEY_PRESS // TAPPING_TERM経過前に他のキーを押すとHOLD(押した時に出力) ON推奨
 //#define IGNORE_MOD_TAP_INTERRUPT // MODキーと通常キーを高速で押すと両方TAP
