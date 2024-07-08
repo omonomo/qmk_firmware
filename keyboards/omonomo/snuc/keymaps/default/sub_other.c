@@ -85,7 +85,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 		if (IS_ROMAZI_OFF) return; // ROMAZI_OFFでキャンセル
 // 日本語入力モード時のみ ---------------------------------------------
-		if (IS_WIN ? IS_OTHER_MOD_PRESS_EX(_S _E _B) : IS_OTHER_MOD_PRESS_EX(_S _E _A _B)) return; // 特定のMOD以外を押していたらそのまま
+		if (IS_WIN ? IS_MOD_PRESS_EX(_S _E _B) : IS_MOD_PRESS_EX(_S _E _A _B)) return; // 特定のMOD以外を押していたらそのまま
 		const bool IS_SAB_PRESS = IS_WIN ? IS_OTHER_MOD_PRESS(_S _B) : IS_OTHER_MOD_PRESS(_S _A _B); // 全角出力するMODキー
 
 	if (IS_KEY_PRESS) {
@@ -195,8 +195,8 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 // キー置き換え ---------------------------------------------
 	switch (keycode) {
 		case KC_BSPC:
-			if (IS_MOD_PRESS_COMP(_P)) {
-				if (IS_KEY_PRESS) { // APP押しながらで行頭まで削除
+			if (IS_MOD_PRESS_COMP(_B)) {
+				if (IS_KEY_PRESS) { // LT_TAB押しながらで行頭まで削除
 					RF_KEY_SEQUENCE(SLCT_PARA_TOP DEL_TEXT);
 				} // IS_KEY_PRESS
 			} else if (IS_MOD_PRESS(_F)) { // FNを押しながらで DEL
@@ -215,8 +215,8 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		break;
 
 		case KC_DEL:
-			if (IS_MOD_PRESS_COMP(_P)) {
-				if (IS_KEY_PRESS) { // APP押しながらで行末まで削除
+			if (IS_MOD_PRESS_COMP(_B)) {
+				if (IS_KEY_PRESS) { // LT_TAB押しながらで行末まで削除
 					RF_KEY_SEQUENCE(SLCT_PARA_BTM DEL_TEXT);
 				} // IS_KEY_PRESS
 			} else if (IS_MOD_PRESS(_F _M)) { // FNかMETを押しながらで INS or CLEAR
@@ -245,9 +245,25 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			} // IS_MOD_PRESS_ONLY
 		break;
 
+		case KC_P0:
+			if (IS_KEY_PRESS) { // APP押しながらで 000
+				if (IS_MOD_PRESS(_P)) {
+					RF_REPEAT_KEY(KC_P0, 3); // 000
+				} // IS_MOD_PRESS
+			} // IS_KEY_PRESS
+		break;
+
+		case KC_PDOT:
+			if (IS_KEY_PRESS) { // APP押しながらで :
+				if (IS_MOD_PRESS(_P)) {
+					RF_TAP_CODE16_UJ(S(KC_SCLN), KC_QUOT); // :
+				} // IS_MOD_PRESS
+			} // IS_KEY_PRESS
+		break;
+
 		case CK_000:
 			if (IS_KEY_PRESS) {
-				RF_REPEAT_KEY(KC_P0, 3);
+				RF_REPEAT_KEY(KC_P0, 3); // 000
 			} // IS_KEY_PRESS
 		break;
 
