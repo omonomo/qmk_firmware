@@ -85,7 +85,7 @@ bool pr_mouse_key(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 		case KC_ENT:
 		case KC_ESC:
-		case MS_LEFT ... MS_ESC:
+		case MC_LEFT ... MC_ESC:
 			if (IS_KEY_PRESS) {
 				if (!IS_MOUSE_MODE) {
 					MOUSE_MODE_ON; // マウスキーを押してマウスモードへ
@@ -101,12 +101,12 @@ bool pr_mouse_key(uint16_t keycode, keyrecord_t *record, global_s *global) {
 	}
 
 	switch (keycode) {
-		case MS_LEFT ... MS_WUP: { // ポインタ、ホイール
+		case MC_LEFT ... MC_WUP: { // ポインタ、ホイール
 			const int8_t MOUSE_MV[] = {
 				-POINTER_MV, -POINTER_MV, -WHEEL_MV, // LEFT UP   WDWN
 				 POINTER_MV,  POINTER_MV,  WHEEL_MV  // RGHT DOWN WUP
 			};
-			const uint8_t MOUSE_DELTA = keycode - MS_LEFT; // マウス移動量(MOUSE_MV)の配列番号
+			const uint8_t MOUSE_DELTA = keycode - MC_LEFT; // マウス移動量(MOUSE_MV)の配列番号
 			const uint8_t MOUSE_FLAG_BIT = 1 << MOUSE_DELTA; // マウスキー押下フラグ
 			const uint8_t MOUSE_COORDINATE= MOUSE_DELTA % ARRAY_NUM(mouse_xyv); // 操作する座標(mouse_xyv)の配列番号
 			const uint8_t MOUSE_PAIR_DELTA = (MOUSE_DELTA + ARRAY_NUM(mouse_xyv)) % (ARRAY_NUM(mouse_xyv) * 2); // 対になるマウス移動量の配列番号
@@ -142,10 +142,10 @@ bool pr_mouse_key(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		} // case
 		break;
 
-		case MS_BTN1 ... MS_BTN5: { // ボタン
+		case MC_BTN1 ... MC_BTN5: { // ボタン
 			wait_ms(MOUSE_ON_DELAY);
 			report_mouse_t current_report = pointing_device_get_report();
-			const uint8_t MOUSE_BUTTON = 1 << (keycode - MS_BTN1); // 操作するボタンのフラグ
+			const uint8_t MOUSE_BUTTON = 1 << (keycode - MC_BTN1); // 操作するボタンのフラグ
 
 			if (IS_KEY_PRESS) {
 				current_report.buttons |= MOUSE_BUTTON;
@@ -158,7 +158,7 @@ bool pr_mouse_key(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		} // case
 		break;
 
-		case MS_ESC: { // ポインタエスケープ
+		case MC_ESC: { // ポインタエスケープ
 			if (IS_KEY_PRESS) {
 				wait_ms(MOUSE_ON_DELAY);
 				report_mouse_t current_report = pointing_device_get_report();

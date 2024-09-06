@@ -172,16 +172,16 @@
 \
 	[_MOUSE] = LAYOUT( /* マウスキー用 */ \
 		XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
-		_______,       XXXXXXX,       XXXXXXX,       MS_UP,         MS_WUP,        XXXXXXX,       MS_ESC,        KC_ESC,\
-		_______,       XXXXXXX,       MS_LEFT,       MS_RGHT,       MS_BTN1,       MS_BTN4,       MS_BTN5,       MS_BTN1,\
-		_______,       XXXXXXX,       MS_DOWN,       MS_WDWN,       MS_BTN2,       MS_BTN3,       MS_BTN2,       KC_ENT,\
+		_______,       XXXXXXX,       XXXXXXX,       MC_UP,         MC_WUP,        XXXXXXX,       MC_ESC,        KC_ESC,\
+		_______,       XXXXXXX,       MC_LEFT,       MC_RGHT,       MC_BTN1,       MC_BTN4,       MC_BTN5,       MC_BTN1,\
+		_______,       XXXXXXX,       MC_DOWN,       MC_WDWN,       MC_BTN2,       MC_BTN3,       MC_BTN2,       KC_ENT,\
 		_______,       _______,       _______,       _______,       _______,                      _______,       _______,\
 \
 		XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       _______,                      _______,\
-		MS_UP,         XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
-		MS_LEFT,       MS_RGHT,       XXXXXXX,       XXXXXXX,       _______,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
-		MS_DOWN,       XXXXXXX,       XXXXXXX,       _______,             _______, MS_UP,         XXXXXXX,       MS_WUP,\
-		_______,       _______,       _______,       MS_LEFT,             XXXXXXX, MS_DOWN,       MS_RGHT,       MS_WDWN\
+		MC_UP,         XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
+		MC_LEFT,       MC_RGHT,       XXXXXXX,       XXXXXXX,       _______,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
+		MC_DOWN,       XXXXXXX,       XXXXXXX,       _______,             _______, MC_UP,         XXXXXXX,       MC_WUP,\
+		_______,       _______,       _______,       MC_LEFT,             XXXXXXX, MC_DOWN,       MC_RGHT,       MC_WDWN\
 	)
 
 // End |||||||||||||||||||||||||||||||||||||||||||||

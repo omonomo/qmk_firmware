@@ -64,8 +64,8 @@ enum keycodes {
 // ワンショットレイヤーキー =============================================
 	OL_MIZU_LD, OL_MIZU_LS, OL_MIZU_RS, OL_MIZU_RD,
 // マウスキー用 =============================================
-	MS_LEFT, MS_UP,   MS_WDWN, MS_RGHT, MS_DOWN, MS_WUP, // 順番注意(-X,-Y,-V,+X,+Y,+Vを崩さない)
-	MS_BTN1, MS_BTN2, MS_BTN3, MS_BTN4, MS_BTN5, MS_ESC,
+	MC_LEFT, MC_UP,   MC_WDWN, MC_RGHT, MC_DOWN, MC_WUP, // 順番注意(-X,-Y,-V,+X,+Y,+Vを崩さない)
+	MC_BTN1, MC_BTN2, MC_BTN3, MC_BTN4, MC_BTN5, MC_ESC,
 // ローマ字出力用 =============================================
 	RM_A,    RM_I,    RM_U,    RM_E,    RM_O,    RM_KA,   RM_KI,   RM_KU,   RM_KE,  RM_KO,
 	RM_SA,   RM_SI,   RM_SU,   RM_SE,   RM_SO,   RM_TA,   RM_TI,   RM_TU,   RM_TE,  RM_TO,
