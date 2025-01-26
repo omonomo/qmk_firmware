@@ -1,4 +1,4 @@
-/* Copyright 2020 Nick Brassel (tzarc)
+/* Copyright 2020 QMK
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,17 +13,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #pragma once
 
-/*
-    The size used by the STM32 L0/L1 EEPROM driver.
-*/
-#ifndef STM32_ONBOARD_EEPROM_SIZE
-#    ifdef DYNAMIC_KEYMAP_ENABLE
-#        define STM32_ONBOARD_EEPROM_SIZE 1024
-#    else
-#        include "eeconfig.h"
-#        define STM32_ONBOARD_EEPROM_SIZE (((EECONFIG_SIZE + 3) / 4) * 4) // based off eeconfig's current usage, aligned to 4-byte sizes, to deal with LTO and EEPROM page sizing
-#    endif
-#endif
+#include_next <mcuconf.h>
+
+#undef RP_I2C_USE_I2C0
+#define RP_I2C_USE_I2C0 TRUE
+
+#undef RP_I2C_USE_I2C1
+#define RP_I2C_USE_I2C1 TRUE
