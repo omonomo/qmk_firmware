@@ -10,7 +10,7 @@
 #define  _MRD | (1 << _MIZU_RD)
 
 #define LAYER_MASK(flag)      (0 flag) // 指定したレイヤー
-#define LAYER_MASK_EX(flag) (~(0 flag)) //指定したレイヤー以外
+#define LAYER_MASK_EX(flag) (~(0 flag)) // 指定したレイヤー以外
 
 // 関数プロトタイプ宣言 #############################################
 layer_state_t ls_change(layer_state_t state, global_s *global);
