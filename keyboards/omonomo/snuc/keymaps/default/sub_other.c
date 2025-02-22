@@ -62,21 +62,26 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 	if (IS_KEY_PRESS) {
 		switch (keycode) {
 			case KC_PSLS ... KC_PDOT: // 全・半角切り替えモードに関係なく常に半角
+			case KC_PEQL:
 				if (IS_MOD_PRESS_EX(_P _F _M)) return;
-				if (LAST_KEYCODE < KC_PSLS || KC_PDOT < LAST_KEYCODE) { // 確実に半角にするため、異なる条件で判定
+				if ((LAST_KEYCODE < KC_PSLS || KC_PDOT < LAST_KEYCODE)
+				  // && LAST_KEYCODE != KC_PEQL
+				  && LAST_KEYCODE != CK_PEQL
+				  // && LAST_KEYCODE != CK_000
+				) { // 確実に半角にするため、異なる条件で判定
 					TAP_CODE(KK_EISU);
 				} // LAST_KEYCODE
 				letter_width = HALF;
 				return;
 			break;
 
-			case KC_APP: // 000を出力する場合常に半角
-				if (IS_OTHER_MOD_PRESS_ONLY(_F)) {
-					TAP_CODE(KK_EISU);
-					letter_width = HALF;
-				} // IS_OTHER_MOD_PRESS_ONLY
-				return;
-			break;
+			// case KC_APP: // FN+APPで000を出力する場合、常に半角
+			// 	if (IS_OTHER_MOD_PRESS_ONLY(_F)) {
+			// 		TAP_CODE(KK_EISU);
+			// 		letter_width = HALF;
+			// 	} // IS_OTHER_MOD_PRESS_ONLY
+			// 	return;
+			// break;
 
 			default:
 			break;
@@ -261,11 +266,21 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			} // IS_KEY_PRESS
 		break;
 
-		case CK_000:
-			if (IS_KEY_PRESS) {
-				RF_REPEAT_KEY(KC_P0, 3); // 000
+		case CK_PEQL:
+		    if (IS_KEY_PRESS) {
+				if (IS_WIN) {
+					RF_TAP_CODE16_UJ(KC_EQL, S(KC_MINS)); // =
+				} else { // IS_WIN
+					RF_TAP_CODE(KC_PEQL); // =
+				} // IS_WIN
 			} // IS_KEY_PRESS
 		break;
+
+		// case CK_000:
+		// 	if (IS_KEY_PRESS) {
+		// 		RF_REPEAT_KEY(KC_P0, 3); // 000
+		// 	} // IS_KEY_PRESS
+		// break;
 
 		default:
 		break;
