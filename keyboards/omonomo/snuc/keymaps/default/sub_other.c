@@ -62,12 +62,18 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 	if (IS_KEY_PRESS) {
 		switch (keycode) {
 			case KC_PSLS ... KC_PDOT: // 全・半角切り替えモードに関係なく常に半角
-			case KC_PEQL:
+			// case KC_PEQL:
+			case CK_PEQL:
+			case CK_PCMM:
+			case CK_CLN:
+			case CK_000:
 				if (IS_MOD_PRESS_EX(_P _F _M)) return;
 				if ((LAST_KEYCODE < KC_PSLS || KC_PDOT < LAST_KEYCODE)
 				  // && LAST_KEYCODE != KC_PEQL
 				  && LAST_KEYCODE != CK_PEQL
-				  // && LAST_KEYCODE != CK_000
+				  && LAST_KEYCODE != CK_PCMM
+				  && LAST_KEYCODE != CK_CLN
+				  && LAST_KEYCODE != CK_000
 				) { // 確実に半角にするため、異なる条件で判定
 					TAP_CODE(KK_EISU);
 				} // LAST_KEYCODE
@@ -250,21 +256,21 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			} // IS_MOD_PRESS_ONLY
 		break;
 
-		case KC_P0:
-			if (IS_KEY_PRESS) { // APP押しながらで 000
-				if (IS_MOD_PRESS(_P)) {
-					RF_REPEAT_KEY(KC_P0, 3); // 000
-				} // IS_MOD_PRESS
-			} // IS_KEY_PRESS
-		break;
+		// case KC_P0:
+		// 	if (IS_KEY_PRESS) { // APP押しながらで 000
+		// 		if (IS_MOD_PRESS(_P)) {
+		// 			RF_REPEAT_KEY(KC_P0, 3); // 000
+		// 		} // IS_MOD_PRESS
+		// 	} // IS_KEY_PRESS
+		// break;
 
-		case KC_PDOT:
-			if (IS_KEY_PRESS) { // APP押しながらで :
-				if (IS_MOD_PRESS(_P)) {
-					RF_TAP_CODE16_UJ(S(KC_SCLN), KC_QUOT); // :
-				} // IS_MOD_PRESS
-			} // IS_KEY_PRESS
-		break;
+		// case KC_PDOT:
+		// 	if (IS_KEY_PRESS) { // APP押しながらで :
+		// 		if (IS_MOD_PRESS(_P)) {
+		// 			RF_TAP_CODE16_UJ(S(KC_SCLN), KC_QUOT); // :
+		// 		} // IS_MOD_PRESS
+		// 	} // IS_KEY_PRESS
+		// break;
 
 		case CK_PEQL:
 		    if (IS_KEY_PRESS) {
@@ -276,11 +282,19 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			} // IS_KEY_PRESS
 		break;
 
-		// case CK_000:
-		// 	if (IS_KEY_PRESS) {
-		// 		RF_REPEAT_KEY(KC_P0, 3); // 000
-		// 	} // IS_KEY_PRESS
-		// break;
+		case CK_PCMM:
+			RF_REPLACE_KEY16(KC_COMM); // ,
+		break;
+
+		case CK_CLN:
+		  RF_REPLACE_KEY16_UJ(S(KC_SCLN), KC_QUOT); // :
+		break;
+
+		case CK_000:
+			if (IS_KEY_PRESS) {
+				RF_REPEAT_KEY(KC_P0, 3); // 000
+			} // IS_KEY_PRESS
+		break;
 
 		default:
 		break;

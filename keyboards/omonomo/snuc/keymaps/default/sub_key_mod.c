@@ -58,7 +58,9 @@ void pr_cancel(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			case KC_LALT: case KC_RALT:
 			case CK_MET:
 			case CK_PEQL:
-			// case CK_000:
+			case CK_PCMM:
+			case CK_CLN:
+			case CK_000:
 			case MT_LSFT_SPC ... LT_MODE_PENT:
 				if (!IS_MOD_PRESS(_P)) {
 					REGISTER_OTHER_MODS_IF_PRESS(_ALL);
@@ -503,7 +505,9 @@ bool pr_metkey(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			case KC_INS ... KC_PDOT: // テンキーはMETをレジストしない
 			// case KC_PEQL:
 			case CK_PEQL:
-			// case CK_000:
+			case CK_PCMM:
+			case CK_CLN:
+			case CK_000:
 			case LT_CRSR_TAB: // また削除(MET-G etc)後キャレット移動等での誤操作防止
 			case LT_MODE_PENT:
 				UNREGISTER_MOD_CODE_IF_ALONE(MET_KEY, IS_MOD_PRESS_EX(_M));
