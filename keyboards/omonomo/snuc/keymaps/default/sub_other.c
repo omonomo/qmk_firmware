@@ -124,6 +124,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				if (!IS_ANY_MOD_PRESS) {
 					R_CHANGE_WIDTH(FULL);
 				} // IS_ANY_MOD_PRESS
+				R_CHANGE_WIDTH(HALF);
 			break;
 
 			case KC_SCLN: // MODなしで全角、その後に押したキーは全角
@@ -135,6 +136,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				if (!IS_ANY_MOD_PRESS) {
 					R_CHANGE_WIDTH(SYMBOL);
 				} // IS_ANY_MOD_PRESS
+				R_CHANGE_WIDTH(HALF);
 			break;
 
 			case KC_1 ... KC_0: // ;`の後、またはMODなしで全角
@@ -154,22 +156,16 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 						R_CHANGE_WIDTH(FULL);
 					} // keycode
 				} // IS_ANY_MOD_PRESS
-			break;
-
-			case MT_LSFT_SPC:
-			case MT_RSFT_SPC:
-				return;
+				R_CHANGE_WIDTH(HALF);
 			break;
 
 			default:
 			break;
 		}
-
-		R_CHANGE_WIDTH(HALF); // いずれの条件にも当てはまらない(通常入力の数字・記号等)場合
 	} else { // IS_KEY_PRESS
+		if (IS_MOD_PRESS_EX(_S _E)) return; // シフト以外を押していたらそのまま
 		switch (keycode) {
 			case MT_LGUI_EISU: // TAPした時に半角設定
-				if (IS_MOD_PRESS_EX(_S _E)) return;
 				if (IS_TAP) {
 					letter_width = HALF;
 				} // IS_TAP
@@ -177,16 +173,14 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 			break;
 
 			case MT_RGUI_KANA: // TAPした時に全角設定
-				if (IS_MOD_PRESS_EX(_S _E)) return;
 				if (IS_TAP) {
 					letter_width = FULL;
 				} // IS_TAP
 				return;
 			break;
 
-			case MT_LSFT_SPC:
+			case MT_LSFT_SPC: // TAPした時に全角
 			case MT_RSFT_SPC:
-				if (IS_MOD_PRESS_EX(_S _E)) return;
 				if (IS_TAP) {
 					R_CHANGE_WIDTH(FULL);
 				} // IS_TAP
@@ -230,7 +224,7 @@ bool pr_numeric_hyper(uint16_t keycode, keyrecord_t *record, global_s *global) {
 				if (IS_KEY_PRESS) { // LT_TAB押しながらで行末まで削除
 					RF_KEY_SEQUENCE(SLCT_PARA_BTM DEL_TEXT);
 				} // IS_KEY_PRESS
-			} else if (IS_MOD_PRESS(_F _M)) { // FNかMETを押しながらで INS or CLEAR
+			} else if (IS_MOD_PRESS(_F)) { // FNを押しながらで INS or CLEAR
 				RF_REPLACE_KEY16(IS_WIN ? KC_INS : KC_NUM);
 			} // IS_MOD_PRESS
 		break;
