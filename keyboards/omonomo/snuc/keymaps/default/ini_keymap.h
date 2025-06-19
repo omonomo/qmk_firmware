@@ -178,8 +178,8 @@
 		_______,       _______,       _______,       _______,       _______,                      _______,       _______,\
 \
 		XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       _______,                      _______,\
-		MC_UP,         XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
-		MC_LEFT,       MC_RGHT,       XXXXXXX,       XXXXXXX,       _______,       XXXXXXX,       XXXXXXX,       XXXXXXX,\
+		MC_UP,         XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       MC_BTN4,       MC_BTN5,       XXXXXXX,\
+		MC_LEFT,       MC_RGHT,       XXXXXXX,       XXXXXXX,       _______,       MC_BTN1,       MC_BTN2,       MC_BTN3,\
 		MC_DOWN,       XXXXXXX,       XXXXXXX,       _______,             _______, MC_UP,         XXXXXXX,       MC_WUP,\
 		_______,       _______,       _______,       MC_LEFT,             XXXXXXX, MC_DOWN,       MC_RGHT,       MC_WDWN\
 	)
