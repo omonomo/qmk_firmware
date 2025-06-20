@@ -39,7 +39,7 @@
 
 /* Tap setting */
 //#define TAPPING_TERM 300
-#define TAP_CODE_DELAY 15
+#define TAP_CODE_DELAY 10 // TAPする時間
 //#define PERMISSIVE_HOLD // TAPPING_TERM経過前に他のキーを押すとHOLD(離した時に出力)
 //#define HOLD_ON_OTHER_KEY_PRESS // TAPPING_TERM経過前に他のキーを押すとHOLD(押した時に出力) ON推奨
 //#define IGNORE_MOD_TAP_INTERRUPT // MODキーと通常キーを高速で押すと両方TAP
@@ -51,7 +51,7 @@
 //#define COMBO_TERM 500
 
 /* Debounce Term */
-#define DEBOUNCE 20 // デバウンス時間
+#define DEBOUNCE 10 // デバウンス時間
 
 /* MouseKey setting */
 //#define MOUSEKEY_DELAY 200 // キーを押してからポインタが動き出すまでの時間
