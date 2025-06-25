@@ -59,7 +59,8 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 	static letter_width_e letter_width = HALF; // 文字幅
 
-	if (IS_KEY_PRESS) {
+// テンキー ---------------------------------------------
+ 	if (IS_KEY_PRESS) {
 		switch (keycode) {
 			case KC_PSLS ... KC_PDOT: // 全・半角切り替えモードに関係なく常に半角
 			// case KC_PEQL:
@@ -94,12 +95,12 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 		}
 	}
 
-		if (IS_ROMAZI_OFF) return; // ROMAZI_OFFでキャンセル
-// 日本語入力モード時のみ ---------------------------------------------
-		if (IS_WIN ? IS_MOD_PRESS_EX(_S _E _B) : IS_MOD_PRESS_EX(_S _E _A _B)) return; // 特定のMOD以外を押していたらそのまま
-		const bool IS_SAB_PRESS = IS_WIN ? IS_OTHER_MOD_PRESS(_S _B) : IS_OTHER_MOD_PRESS(_S _A _B); // 全角出力するMODキー
+// その他 ---------------------------------------------
+	if (IS_WIN ? IS_MOD_PRESS_EX(_S _E _B) : IS_MOD_PRESS_EX(_S _E _A _B)) return; // 特定のMOD以外を押していたらそのまま
+	const bool IS_SAB_PRESS = IS_WIN ? IS_OTHER_MOD_PRESS(_S _B) : IS_OTHER_MOD_PRESS(_S _A _B); // 全角出力するMODキー
 
 	if (IS_KEY_PRESS) {
+		if (IS_ROMAZI_OFF) return; // ROMAZI_OFFだとキャンセル
 		switch (keycode) {
 			case RM_A ... RM_TEN: // 常に全角
 				R_CHANGE_WIDTH(FULL);
@@ -181,6 +182,7 @@ void pr_change_en(uint16_t keycode, keyrecord_t *record, global_s *global) {
 
 			case MT_LSFT_SPC: // TAPした時に全角
 			case MT_RSFT_SPC:
+			    if (IS_ROMAZI_OFF) return; // ROMAZI_OFFだとキャンセル
 				if (IS_TAP) {
 					R_CHANGE_WIDTH(FULL);
 				} // IS_TAP
