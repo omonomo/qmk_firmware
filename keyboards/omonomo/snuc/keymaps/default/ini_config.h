@@ -35,7 +35,7 @@
 #define POINTER_AD  (IS_MAC ?  8 : 25) // ポインタ加速減少度
 
 #define MOUSE_ON_DELAY 15 // マウスキーオンディレイ時間(シフト誤出力防止・ms)
-#define POINTER_MVE    20 // ポインタエスケープ移動量
+#define POINTER_MVE   -20 // ポインタエスケープ移動量
 #define OFF_DELAY_TH   70 // マウスキーオフディレイ
 
 #define WAKEUP_TH 65000 // たたき起こし間隔

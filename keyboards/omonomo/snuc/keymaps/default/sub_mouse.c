@@ -41,13 +41,13 @@ void ms_mouse_key(global_s *global) {
 			const uint8_t THH = (mouse_state == WHEEL_MOVE ? WHEEL_THH : POINTER_THH);
 			const uint8_t AD  = (mouse_state == WHEEL_MOVE ? WHEEL_AD  : POINTER_AD);
 
-			if (IS_MOD_PRESS(_F _M)) { // METキーかFNキーを押している時は常に一定
-				SET_REPEAT_COUNT(now_mouse_interval = THM);
-				now_mouse_ac = AC;
-			} else { // IS_MOD_PRESS
+			if (IS_MOD_PRESS(_F _M)) { // METキーかFNキーを押している時は加速
 				now_mouse_interval -= (now_mouse_ac <= now_mouse_interval ? now_mouse_ac : now_mouse_interval); // インターバルを加速度分短くする
 				SET_REPEAT_COUNT(THH < now_mouse_interval ? now_mouse_interval : THH); // 高速設定を越えないように調整
 				now_mouse_ac -= (AD < now_mouse_ac ? AD : (now_mouse_ac - 1)); // 加速度も加速減少度分落としていく
+			} else { // IS_MOD_PRESS
+				SET_REPEAT_COUNT(now_mouse_interval = THM);
+				now_mouse_ac = AC;
 			} // IS_MOD_PRESS
 		} // WHEEL_START
 
